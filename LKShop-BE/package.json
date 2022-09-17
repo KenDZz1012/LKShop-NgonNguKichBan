@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.9",
     "bcrypt": "^5.0.1",
     "config": "^3.3.8",
     "cors": "^2.8.5",
