@@ -3,15 +3,6 @@ import signJWT from "../functions/signJWT";
 import log from "../logger";
 import { login } from "../services/login.service";
 
-
-const validateToken = (req: Request, res: Response, next: NextFunction) => {
-    log.info("User", "Token Validated, user authorized");
-
-    return res.status(200).json({
-        message: "Authorized"
-    })
-}
-
 const loginHandler = async (req: Request, res: Response, next: NextFunction) => {
     const userLogin = await login(req.body)
     if (userLogin.isSucces) {
@@ -33,7 +24,7 @@ const loginHandler = async (req: Request, res: Response, next: NextFunction) => 
             }
         })
     }
-    else{
+    else {
         return res.send({
             message: userLogin.msgString,
             isSucces: userLogin.isSucces,
@@ -42,6 +33,5 @@ const loginHandler = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 export {
-    validateToken,
     loginHandler
 }

@@ -12,7 +12,7 @@ const login = async (input: DocumentDefinition<UserLogin>) => {
                 msgString: "Not exist UserName"
             }
         }
-        const isPasswordValid = await bcrypt.compare(Password, user.Password);
+        const isPasswordValid: boolean = await bcrypt.compare(Password, user.Password);
         if (!isPasswordValid) {
             return {
                 isSuccess: false,
@@ -20,9 +20,9 @@ const login = async (input: DocumentDefinition<UserLogin>) => {
             }
         }
         return {
-            msgString:"Login Success",
+            msgString: "Login Success",
             isSucces: true,
-            data:user
+            data: user
         }
     } catch (err) {
         throw err;

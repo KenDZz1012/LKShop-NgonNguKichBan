@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 
 const getAllUser = async (input: DocumentDefinition<UserFilter>) => {
     try {
-        const filter = { ...input }
+        const filter: DocumentDefinition<UserFilter> = { ...input }
         return await User.find(filter)
     } catch (err) {
         throw err;
@@ -13,7 +13,7 @@ const getAllUser = async (input: DocumentDefinition<UserFilter>) => {
 
 const getUserById = async (input: DocumentDefinition<UserFilter>) => {
     try {
-        const filter = { ...input }
+        const filter: DocumentDefinition<UserFilter> = { ...input }
         return await User.findById(filter.Id)
     } catch (err) {
         throw err;
@@ -22,7 +22,7 @@ const getUserById = async (input: DocumentDefinition<UserFilter>) => {
 
 const createUser = async (input: DocumentDefinition<UserDocument>) => {
     try {
-        const hash = bcrypt.hashSync(input.Password, 10)
+        const hash: string = bcrypt.hashSync(input.Password, 10)
         input.Password = hash
         return await User.create(input)
     }
@@ -33,7 +33,7 @@ const createUser = async (input: DocumentDefinition<UserDocument>) => {
 
 const updateUser = async (input: DocumentDefinition<UserDocument>) => {
     try {
-        const user = { ...input }
+        const user: DocumentDefinition<UserDocument> = { ...input }
         await User.updateOne({ _id: user.Id }, { $set: user })
     } catch (err) {
         throw err;
@@ -42,7 +42,7 @@ const updateUser = async (input: DocumentDefinition<UserDocument>) => {
 
 const deleteUser = async (input: DocumentDefinition<UserDocument>) => {
     try {
-        const user = { ...input }
+        const user: DocumentDefinition<UserDocument> = { ...input }
         await User.deleteOne({ _id: user.Id })
     } catch (err) {
         throw err;
