@@ -4,20 +4,6 @@ import { createUserHandler, getUserListHandler, getUserByIdHandler, updateUserHa
 import extractJWT from "../apps/middlewares/extractJWT"
 import { catchAsync } from "../common/catchAsync"
 export default function (app: Express) {
+    app.post('/api/login', catchAsync(loginHandler))
 
-    //auth
-
-
-
-
-    // User
-    app.get("/api/getalluser", extractJWT, catchAsync(getUserListHandler))
-
-    app.get("/api/getuserbyid", extractJWT, catchAsync(getUserByIdHandler))
-
-    app.post("/api/createuser", extractJWT, catchAsync(createUserHandler))
-
-    app.put("/api/updateUser", extractJWT, catchAsync(updateUserHandler))
-
-    app.delete("/api/deleteUser", extractJWT, catchAsync(deleteUserHandler))
 }

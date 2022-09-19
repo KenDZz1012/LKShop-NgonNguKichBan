@@ -3,6 +3,7 @@ import config from 'config'
 import cors from 'cors'
 import dotenv from 'dotenv';
 import routes from "../routes/routes";
+import routesLogin from "../routes/routesLogin";
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(cors({
     credentials: true,
     origin: "http://localhost:8000"
 }))
+
+routesLogin(app)
 
 routes(app)
 
