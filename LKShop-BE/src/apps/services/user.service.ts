@@ -7,14 +7,15 @@ const getAllUser = async (input: DocumentDefinition<UserFilter>) => {
     return await User.find(filter)
 }
 
-const getUserById = async (input: DocumentDefinition<UserFilter>) => {
-    const filter: DocumentDefinition<UserFilter> = { ...input }
-    return await User.findById(filter.Id)
+const getUserById = async (input: string) => {
+    // const filter: DocumentDefinition<UserFilter> = { ...input }
+    return await User.findById(input)
 
 }
 
 const createUser = async (input: DocumentDefinition<UserDocument>) => {
-    const hash: string = bcrypt.hashSync(input.Password, 10)
+
+    const hash: string = input.Password ? bcrypt.hashSync(input.Password, 10) : "";
     input.Password = hash
     return await User.create(input)
 

@@ -9,11 +9,12 @@ const getUserListHandler = async (req: Request, res: Response, next: NextFunctio
 
     const users = await getAllUser(req.body.abc);
     return res.send(new BaseResponse<UserDocument[]>(users, "Get Success", true))
-    
+
 }
 
 const getUserByIdHandler = async (req: Request, res: Response) => {
-    const user = await getUserById(req.body);
+    const { UserId } = req.params;
+    const user = await getUserById(UserId);
     return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
 
 
