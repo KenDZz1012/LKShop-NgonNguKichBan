@@ -1,67 +1,45 @@
 import { createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/user.service";
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import signJWT from "../functions/signJWT";
-const getUserListHandler = async (req: Request, res: Response) => {
-    try {
-        const users = await getAllUser(req.body);
-        return res.send({
-            isSuccess: true,
-            msgString: "Get Success",
-            data: users
-        })
-    } catch (e) {
-        return res.status(409);
-    }
+import { BadRequest, BaseResponse } from '../../common/base.response'
+import { UserDocument } from "../models/user.model";
+import { catchAsync } from "../../common/catchAsync";
+
+const getUserListHandler = async (req: Request, res: Response, next: NextFunction) => {
+
+    const users = await getAllUser(req.body.abc);
+    return res.send(new BaseResponse<UserDocument[]>(users, "Get Success", true))
+    
 }
 
 const getUserByIdHandler = async (req: Request, res: Response) => {
-    try {
-        const user = await getUserById(req.body);
-        return res.send({
-            isSuccess: true,
-            msgString: "Get Success",
-            data: user
-        })
-    } catch (e) {
-        return res.status(409);
-    }
+    const user = await getUserById(req.body);
+    return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
+
+
 }
 
 const createUserHandler = async (req: Request, res: Response) => {
-    try {
-        await createUser(req.body);
-        return res.send({
-            isSuccess: true,
-            msgString: "Create Success"
-        })
-    }
-    catch (e) {
-        return res.status(409);
-    }
+    const user = await createUser(req.body);
+    return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
+
 }
 
 const updateUserHandler = async (req: Request, res: Response) => {
-    try {
-        await updateUser(req.body)
-        return res.send({
-            isSuccess: true,
-            msgString: "Update Success"
-        })
-    } catch (e) {
-        return res.status(409);
-    }
+    const user = await updateUser(req.body)
+    return res.send({
+        isSuccess: true,
+        msgString: "Update Success"
+    })
 }
 
 const deleteUserHandler = async (req: Request, res: Response) => {
-    try {
-        await deleteUser(req.body)
-        return res.send({
-            isSuccess: true,
-            msgString: "Delete Success"
-        })
-    } catch (e) {
-        return res.status(409);
-    }
+    await deleteUser(req.body)
+    return res.send({
+        isSuccess: true,
+        msgString: "Delete Success"
+    })
+
 }
 
 export {

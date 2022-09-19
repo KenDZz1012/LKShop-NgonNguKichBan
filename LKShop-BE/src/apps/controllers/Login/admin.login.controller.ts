@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import signJWT from "../functions/signJWT";
-import log from "../logger";
-import { login } from "../services/login.service";
+import signJWT from "../../functions/signJWT";
+import log from "../../logger";
+import { login } from "../../services/login.service";
 
 const loginHandler = async (req: Request, res: Response, next: NextFunction) => {
     const userLogin = await login(req.body)
