@@ -2,15 +2,12 @@ import mongoose, { ConnectOptions } from "mongoose";
 import config from 'config';
 import log from '../apps/logger'
 
-const connect = () => {
-
-}
-
 export class DB {
   dbUri: string;
   constructor() {
     this.dbUri = config.get("app.dbUri")
   }
+
   connect() {
     return mongoose.connect(this.dbUri, {
       useNewUrlParser: true,
