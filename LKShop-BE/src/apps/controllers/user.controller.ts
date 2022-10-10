@@ -1,4 +1,4 @@
-import { checkPasswordUser, createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/user.service";
+import { checkPasswordUser, createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/User.service";
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../common/base.response'
 import { UserDocument } from "../models/user.model";
