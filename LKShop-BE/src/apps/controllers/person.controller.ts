@@ -4,7 +4,7 @@ import { BadRequest, BaseResponse } from '../../common/base.response'
 import { PersonDocument } from "../models/Person.model";
 
 const getListPersonHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const persons = await getListPerson();
+    const persons = await getListPerson(req.body);
     return res.send(new BaseResponse<PersonDocument[]>(persons, "Get Success", true))
 }
 

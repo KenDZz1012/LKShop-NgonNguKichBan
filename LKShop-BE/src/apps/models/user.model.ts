@@ -13,20 +13,6 @@ export interface UserDocument extends mongoose.Document {
     Status: boolean
 }
 
-export interface UserFilter extends mongoose.Document {
-    Id: string,
-    UserName: string,
-    FullName: string,
-    Email: string,
-    Status: boolean,
-    Sex: string
-}
-
-export interface UserLogin extends mongoose.Document {
-    UserName: string,
-    Password: string
-}
-
 
 const UserSchema = new mongoose.Schema({
     UserName: { type: String, require: true, unique: true },

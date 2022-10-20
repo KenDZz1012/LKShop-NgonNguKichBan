@@ -1,9 +1,9 @@
-import { DocumentDefinition } from "mongoose";
-import User, { UserDocument, UserFilter } from "../models/user.model";
+import User from "../models/user.model";
 import bcrypt from 'bcrypt'
+import UserModel, { UserFilterModel } from "../DTO/User.dto";
 
-const getAllUser = async (input: DocumentDefinition<UserFilter>) => {
-    const filter: DocumentDefinition<UserFilter> = { ...input }
+const getAllUser = async (input: UserFilterModel) => {
+    const filter: UserFilterModel = { ...input }
     return await User.find(filter)
 }
 
@@ -11,14 +11,14 @@ const getUserById = async (input: string) => {
     return await User.findById(input)
 }
 
-const createUser = async (input: DocumentDefinition<UserDocument>) => {
+const createUser = async (input: UserModel) => {
     const hash: string = input.Password ? bcrypt.hashSync(input.Password, 10) : "";
     input.Password = hash
     return await User.create(input)
 }
 
-const updateUser = async (input: DocumentDefinition<UserDocument>) => {
-    const user: DocumentDefinition<UserDocument> = { ...input }
+const updateUser = async (input: UserModel) => {
+    const user: UserModel = { ...input }
     if (user.Password) {
         const hash: string = bcrypt.hashSync(user.Password, 10);
         user.Password = hash;
@@ -31,7 +31,7 @@ const deleteUser = async (input: string) => {
 }
 
 const checkPasswordUser = async (Id: string, Password: string) => {
-    const user = await User.findById(Id)
+    let user = await User.findById(Id)
     if (!user) {
         return {
             isSuccess: false,
@@ -45,6 +45,7 @@ const checkPasswordUser = async (Id: string, Password: string) => {
             msgString: "Wrong password"
         }
     }
+
     return {
         isSucces: true,
         data: user

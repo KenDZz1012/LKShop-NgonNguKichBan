@@ -1,11 +1,11 @@
-import { DocumentDefinition } from "mongoose";
-import User, { UserDocument, UserFilter, UserLogin } from "../models/user.model";
+import User from "../models/user.model";
 import bcrypt from 'bcrypt'
+import { UserLoginModel } from "../DTO/User.dto";
 
-const login = async (input: DocumentDefinition<UserLogin>) => {
+const login = async (input: UserLoginModel) => {
     try {
         const { UserName, Password } = input
-        const user = await User.findOne({ UserName })
+        let user: any = await User.findOne({ UserName })
         if (!user) {
             return {
                 isSuccess: false,
@@ -19,6 +19,8 @@ const login = async (input: DocumentDefinition<UserLogin>) => {
                 msgString: "Wrong password"
             }
         }
+        user = user.toObject()
+        delete user.Password
         return {
             msgString: "Login Success",
             isSucces: true,

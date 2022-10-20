@@ -1,21 +1,22 @@
-import { DocumentDefinition } from "mongoose";
-import Category, { CategoryDocument, } from "../models/Category.model";
+import CategoryModel, { CategoryFilterModel } from "../DTO/Category.dto";
+import Category from "../models/Category.model";
 
 
-const getListCategory = async () => {
-    return await Category.find()
+const getListCategory = async (input: CategoryFilterModel) => {
+    const filter: CategoryFilterModel = { ...input }
+    return await Category.find(filter)
 }
 
 const getCategoryById = async (input: string) => {
     return await Category.findById(input)
 }
 
-const createCategory = async (input: DocumentDefinition<CategoryDocument>) => {
+const createCategory = async (input: CategoryModel) => {
     return await Category.create(input)
 }
 
-const updateCategory = async (input: DocumentDefinition<CategoryDocument>) => {
-    const category: DocumentDefinition<CategoryDocument> = { ...input }
+const updateCategory = async (input: CategoryModel) => {
+    const category: CategoryModel = { ...input }
     return await Category.updateOne({ _id: category.Id }, { $set: category })
 }
 

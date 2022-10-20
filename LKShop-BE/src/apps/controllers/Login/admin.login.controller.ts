@@ -16,10 +16,8 @@ const loginHandler = async (req: Request, res: Response, next: NextFunction) => 
             }
             else if (token) {
                 return res.send({
-                    message: userLogin.msgString,
-                    isSucces: userLogin.isSucces,
+                    ...userLogin,
                     token,
-                    user: userLogin.data.UserName
                 })
             }
         })

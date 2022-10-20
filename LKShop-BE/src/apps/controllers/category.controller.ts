@@ -6,7 +6,7 @@ import { CategoryDocument } from "../models/Category.model";
 
 
 const getListCategoryHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const categories = await getListCategory();
+    const categories = await getListCategory(req.body);
     return res.send(new BaseResponse<CategoryDocument[]>(categories, "Get Success", true))
 }
 
