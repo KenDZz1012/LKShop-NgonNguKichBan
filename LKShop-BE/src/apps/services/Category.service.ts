@@ -3,8 +3,7 @@ import Category from "../models/Category.model";
 
 
 const getListCategory = async (input: CategoryFilterModel) => {
-    const filter: CategoryFilterModel = { ...input }
-    return await Category.find(filter)
+    return await Category.find(input)
 }
 
 const getCategoryById = async (input: string) => {
@@ -16,8 +15,7 @@ const createCategory = async (input: CategoryModel) => {
 }
 
 const updateCategory = async (input: CategoryModel) => {
-    const category: CategoryModel = { ...input }
-    return await Category.updateOne({ _id: category.Id }, { $set: category })
+    return await Category.updateOne({ _id: input.Id }, { $set: input })
 }
 
 const deleteCategory = async (input: string) => {

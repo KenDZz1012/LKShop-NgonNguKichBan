@@ -2,43 +2,67 @@ import { getListPerson, getPersonById, createPerson, updatePerson, deletePerson 
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../common/base.response'
 import { PersonDocument } from "../models/Person.model";
+import Router from '../../decorators/routes.decorator';
+import extractJWT from "../middlewares/extractJWT";
 
-const getListPersonHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const persons = await getListPerson(req.body);
-    return res.send(new BaseResponse<PersonDocument[]>(persons, "Get Success", true))
-}
+const baseUrl = "api/v1/Person"
 
-const getPersonByIdHandler = async (req: Request, res: Response) => {
-    const { PersonId } = req.params;
-    const person = await getPersonById(PersonId);
-    return res.send(new BaseResponse<PersonDocument>(person, "Get Success", true))
-}
-
-const createPersonHandler = async (req: Request, res: Response) => {
-    const person = await createPerson(req.body);
-    return res.send(new BaseResponse<PersonDocument>(person, "Create Success", true))
-}
-
-const updatePersonHandler = async (req: Request, res: Response) => {
-    const person = await updatePerson(req.body)
-    return res.send({
-        isSuccess: true,
-        msgString: "Update Success"
+export class PersonController {
+    @Router({
+        path: `/${baseUrl}/GetAllPerson`,
+        method: 'get',
+        middlewares: [extractJWT]
     })
-}
+    private async getListPersonHandler(req: Request, res: Response, next: NextFunction) {
+        const persons = await getListPerson(req.body);
+        return res.send(new BaseResponse<PersonDocument[]>(persons, "Get Success", true))
+    }
 
-const deletePersonHandler = async (req: Request, res: Response) => {
-    const { PersonId } = req.params
-    await deletePerson(PersonId)
-    return res.send({
-        isSuccess: true,
-        msgString: "Delete Success"
+    @Router({
+        path: `/${baseUrl}/GetPersonById/:PersonId`,
+        method: 'get',
+        middlewares: [extractJWT]
     })
-}
-export {
-    getListPersonHandler,
-    createPersonHandler,
-    updatePersonHandler,
-    deletePersonHandler,
-    getPersonByIdHandler
+    private async getPersonByIdHandler(req: Request, res: Response) {
+        const { PersonId } = req.params;
+        const person = await getPersonById(PersonId);
+        return res.send(new BaseResponse<PersonDocument>(person, "Get Success", true))
+    }
+
+    @Router({
+        path: `/${baseUrl}/createPerson`,
+        method: 'post',
+        middlewares: [extractJWT]
+    })
+    private async createPersonHandler(req: Request, res: Response) {
+        const person = await createPerson(req.body);
+        return res.send(new BaseResponse<PersonDocument>(person, "Create Success", true))
+    }
+
+    @Router({
+        path: `/${baseUrl}/updatePerson`,
+        method: 'put',
+        middlewares: [extractJWT]
+    })
+    private async updatePersonHandler(req: Request, res: Response) {
+        const person = await updatePerson(req.body)
+        return res.send({
+            isSuccess: true,
+            msgString: "Update Success"
+        })
+    }
+
+    @Router({
+        path: `/${baseUrl}/deletePerson/:PersonId`,
+        method: 'delete',
+        middlewares: [extractJWT]
+    })
+    private async deletePersonHandler(req: Request, res: Response) {
+        const { PersonId } = req.params
+        await deletePerson(PersonId)
+        return res.send({
+            isSuccess: true,
+            msgString: "Delete Success"
+        })
+    }
 }

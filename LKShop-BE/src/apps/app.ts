@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import config from 'config'
 import cors from 'cors'
 import dotenv from 'dotenv';
-import routes from "../routes/routes";
-import routesLogin from "../routes/routesLogin";
+import { appRouter } from '../decorators/routes.decorator';
+import './controllers/index'
 dotenv.config();
 
 const app = express();
@@ -16,9 +16,8 @@ app.use(cors({
     origin: "http://localhost:8000"
 }))
 
-routesLogin(app)
-
-routes(app)
+// routesLogin(app)
+app.use(appRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     const status = err?.status || 500;

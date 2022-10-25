@@ -3,8 +3,7 @@ import bcrypt from 'bcrypt'
 import UserModel, { UserFilterModel } from "../DTO/User.dto";
 
 const getAllUser = async (input: UserFilterModel) => {
-    const filter: UserFilterModel = { ...input }
-    return await User.find(filter)
+    return await User.find(input)
 }
 
 const getUserById = async (input: string) => {
@@ -18,7 +17,7 @@ const createUser = async (input: UserModel) => {
 }
 
 const updateUser = async (input: UserModel) => {
-    const user: UserModel = { ...input }
+    const user = input
     if (user.Password) {
         const hash: string = bcrypt.hashSync(user.Password, 10);
         user.Password = hash;

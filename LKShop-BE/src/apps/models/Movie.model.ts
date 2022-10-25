@@ -5,14 +5,22 @@ export interface MovieDocument extends mongoose.Document {
     MovieName: string,
     Poster: string,
     Rating: Number,
-    Category: []
-    Dob: Date,
-    Email: string,
-    FullName: string,
-    Status: boolean
+    RateCount: Number,
+    Category: Array<String>
+    Trailer: Array<String>
+    Director: Array<String>
+    Actor: Array<String>
+    Information: String
+    ReleaseYear: Number,
+    InTime: Date,
+    Status: String,
+    IsTrending: Boolean,
+    CreatedBy: String,
+    RunTime: String,
+    RelatedMovie: Array<String>
+    Language: String,
+    Country: String
 }
-export interface MovieFilter extends mongoose.Document { }
-
 
 
 const MovieSchema = new mongoose.Schema({
@@ -33,10 +41,10 @@ const MovieSchema = new mongoose.Schema({
     }],
     Status: { type: String, default: null },
     IsTrending: { type: Boolean, default: null },
-    Director: {
+    Director: [{
         type: mongoose.Types.ObjectId,
         ref: "Person"
-    },
+    }],
     Actor: [{
         type: mongoose.Types.ObjectId,
         ref: "Person"
@@ -49,15 +57,15 @@ const MovieSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    RelatedMovie: {
+    RelatedMovie: [{
         type: String,
         default: null
-    },
+    }],
     Language: {
         type: String,
         default: null
     },
-    County: {
+    Country: {
         type: String,
         default: null,
     }

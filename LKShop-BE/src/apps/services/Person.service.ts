@@ -3,8 +3,7 @@ import Person from "../models/Person.model";
 
 
 const getListPerson = async (input: PersonFilterModel) => {
-    const filter: PersonFilterModel = { ...input }
-    return await Person.find(filter)
+    return await Person.find(input)
 }
 
 const getPersonById = async (input: string) => {
@@ -16,8 +15,7 @@ const createPerson = async (input: PersonModel) => {
 }
 
 const updatePerson = async (input: PersonModel) => {
-    const person: PersonModel = { ...input }
-    return await Person.updateOne({ _id: person.Id }, { $set: person })
+    return await Person.updateOne({ _id: input.Id }, { $set: input })
 }
 
 const deletePerson = async (input: string) => {

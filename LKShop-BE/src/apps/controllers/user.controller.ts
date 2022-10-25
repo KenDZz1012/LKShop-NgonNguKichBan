@@ -4,62 +4,90 @@ import { BadRequest, BaseResponse } from '../../common/base.response'
 import { UserDocument } from "../models/user.model";
 import { DocumentDefinition } from "mongoose";
 import bcrypt from 'bcrypt'
+import Router from '../../decorators/routes.decorator';
+import extractJWT from "../middlewares/extractJWT";
 
-const getUserListHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const users = await getAllUser(req.body);
-    return res.send(new BaseResponse<UserDocument[]>(users, "Get Success", true))
-}
+const baseUrl = "api/v1/User"
 
-const getUserByIdHandler = async (req: Request, res: Response) => {
-    const { UserId } = req.params;
-    const user = await getUserById(UserId);
-    return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
-}
-
-const createUserHandler = async (req: Request, res: Response) => {
-    const user = await createUser(req.body);
-    return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
-}
-
-const updateUserHandler = async (req: Request, res: Response) => {
-    const user = await updateUser(req.body)
-    return res.send({
-        isSuccess: true,
-        msgString: "Update Success"
+export class UserController {
+    @Router({
+        path: `/${baseUrl}/GetAllUser`,
+        method: 'get',
+        middlewares: [extractJWT]
     })
-}
-
-const deleteUserHandler = async (req: Request, res: Response) => {
-    const { UserId } = req.params
-    await deleteUser(UserId)
-    return res.send({
-        isSuccess: true,
-        msgString: "Delete Success"
-    })
-}
-
-const changePasswordUserHandler = async (req: Request, res: Response) => {
-    const { Id, Password, NewPassword } = req.body
-    const response = await checkPasswordUser(Id, Password)
-    const UserUpdate = {
-        ...req.body,
-        Id: Id,
-        Password: NewPassword,
+    private async getUserListHandler(req: Request, res: Response) {
+        const users = await getAllUser(req.body);
+        return res.send(new BaseResponse<UserDocument[]>(users, "Get Success", true))
     }
-    if (response.isSucces == true) {
-        await updateUser(UserUpdate)
+
+    @Router({
+        path: `/${baseUrl}/GetUserById/:UserId`,
+        method: 'get',
+        middlewares: [extractJWT]
+    })
+    private async getUserByIdHandler(req: Request, res: Response) {
+        const { UserId } = req.params;
+        const user = await getUserById(UserId);
+        return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
+    }
+
+    @Router({
+        path: `/${baseUrl}/createUser`,
+        method: 'post',
+        middlewares: [extractJWT]
+    })
+    private async createUserHandler(req: Request, res: Response) {
+        const user = await createUser(req.body);
+        return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
+    }
+
+    @Router({
+        path: `/${baseUrl}/updateUser`,
+        method: 'put',
+        middlewares: [extractJWT]
+    })
+    private async updateUserHandler(req: Request, res: Response) {
+        const user = await updateUser(req.body)
         return res.send({
             isSuccess: true,
             msgString: "Update Success"
         })
     }
 
-}
-export {
-    getUserListHandler,
-    createUserHandler,
-    getUserByIdHandler,
-    updateUserHandler,
-    deleteUserHandler,
-    changePasswordUserHandler
+    @Router({
+        path: `/${baseUrl}/deleteUser/:UserId`,
+        method: 'delete',
+        middlewares: [extractJWT]
+    })
+    private async deleteUserHandler(req: Request, res: Response) {
+        const { UserId } = req.params
+        await deleteUser(UserId)
+        return res.send({
+            isSuccess: true,
+            msgString: "Delete Success"
+        })
+    }
+
+    @Router({
+        path: `/${baseUrl}/ChangePassword`,
+        method: 'put',
+        middlewares: [extractJWT]
+    })
+    private async changePasswordUserHandler(req: Request, res: Response) {
+        const { Id, Password, NewPassword } = req.body
+        const response = await checkPasswordUser(Id, Password)
+        const UserUpdate = {
+            ...req.body,
+            Id: Id,
+            Password: NewPassword,
+        }
+        if (response.isSucces == true) {
+            await updateUser(UserUpdate)
+            return res.send({
+                isSuccess: true,
+                msgString: "Update Success"
+            })
+        }
+
+    }
 }

@@ -1,0 +1,5 @@
+export * from './login/admin.login.controller'
+export * from './category.controller'
+export * from './user.controller'
+export * from './person.controller'
+export * from './client.controller'
