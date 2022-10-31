@@ -1,7 +1,7 @@
 import { checkPasswordUser, createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/User.service";
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../common/base.response'
-import { UserDocument } from "../models/user.model";
+import UserModel from "../DTO/User.dto";
 import { DocumentDefinition } from "mongoose";
 import bcrypt from 'bcrypt'
 import Router from '../../decorators/routes.decorator';
@@ -17,7 +17,7 @@ export class UserController {
     })
     private async getUserListHandler(req: Request, res: Response) {
         const users = await getAllUser(req.body);
-        return res.send(new BaseResponse<UserDocument[]>(users, "Get Success", true))
+        return res.status(200).send(new BaseResponse<UserModel[]>(users, "Get Success", true))
     }
 
     @Router({
@@ -28,7 +28,7 @@ export class UserController {
     private async getUserByIdHandler(req: Request, res: Response) {
         const { UserId } = req.params;
         const user = await getUserById(UserId);
-        return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
+        return res.status(200).send(new BaseResponse<UserModel>(user, "Get Success", true))
     }
 
     @Router({
@@ -38,7 +38,7 @@ export class UserController {
     })
     private async createUserHandler(req: Request, res: Response) {
         const user = await createUser(req.body);
-        return res.send(new BaseResponse<UserDocument>(user, "Get Success", true))
+        return res.status(200).send(new BaseResponse<UserModel>(user, "Get Success", true))
     }
 
     @Router({
@@ -48,7 +48,7 @@ export class UserController {
     })
     private async updateUserHandler(req: Request, res: Response) {
         const user = await updateUser(req.body)
-        return res.send({
+        return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
         })
@@ -62,7 +62,7 @@ export class UserController {
     private async deleteUserHandler(req: Request, res: Response) {
         const { UserId } = req.params
         await deleteUser(UserId)
-        return res.send({
+        return res.status(200).send({
             isSuccess: true,
             msgString: "Delete Success"
         })
@@ -83,11 +83,16 @@ export class UserController {
         }
         if (response.isSucces == true) {
             await updateUser(UserUpdate)
-            return res.send({
+            return res.status(200).send({
                 isSuccess: true,
                 msgString: "Update Success"
             })
         }
-
+        else {
+            return res.send({
+                isSuccess: response.isSucces,
+                msgString: response.msgString
+            })
+        }
     }
 }

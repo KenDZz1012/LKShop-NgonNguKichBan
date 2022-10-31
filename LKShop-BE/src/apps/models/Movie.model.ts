@@ -1,27 +1,6 @@
 import mongoose from "mongoose";
 import { PopulatedDoc } from 'mongoose';
-
-export interface MovieDocument extends mongoose.Document {
-    MovieName: string,
-    Poster: string,
-    Rating: Number,
-    RateCount: Number,
-    Category: Array<String>
-    Trailer: Array<String>
-    Director: Array<String>
-    Actor: Array<String>
-    Information: String
-    ReleaseYear: Number,
-    InTime: Date,
-    Status: String,
-    IsTrending: Boolean,
-    CreatedBy: String,
-    RunTime: String,
-    RelatedMovie: Array<String>
-    Language: String,
-    Country: String
-}
-
+import MovieModel from "../DTO/Movie.dto";
 
 const MovieSchema = new mongoose.Schema({
     MovieName: { type: String, require: true },
@@ -71,5 +50,5 @@ const MovieSchema = new mongoose.Schema({
     }
 })
 
-const Movie = mongoose.model("tbl_Movie", MovieSchema);
+const Movie = mongoose.model<MovieModel>("tbl_Movie", MovieSchema);
 export default Movie;

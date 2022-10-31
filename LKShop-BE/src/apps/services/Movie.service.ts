@@ -9,8 +9,12 @@ const getMovieById = async (input: String) => {
     return await Movie.findById(input)
 }
 
-const createMovie = async (input: MovieModel) => {
-    return await Movie.create(input)
+const createMovie = async (input: MovieModel, file: any) => {
+    if (file) {
+        console.log(file)
+    }
+    // return await Movie.create(input)
+    return
 }
 
 const updateMovie = async (input: MovieModel) => {

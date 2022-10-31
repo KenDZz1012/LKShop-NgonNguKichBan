@@ -4,7 +4,7 @@ import log from "../../logger";
 import { login } from "../../services/login.service";
 import Router from '../../../decorators/routes.decorator';
 
-const baseUrl = "api/v1/Authentication"
+const baseUrl = "api/v1/Authentication/admin"
 
 export class LoginController {
     @Router({

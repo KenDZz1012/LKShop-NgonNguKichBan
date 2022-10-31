@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import config from "config"
 import log from "../logger";
 import { DocumentDefinition } from "mongoose";
-import User, { UserDocument } from "../models/user.model";
 import { UserLoginModel } from "../DTO/User.dto";
 
 const signJWT = (user: UserLoginModel, callback: (error: Error | null, token: string | null) => void): void => {

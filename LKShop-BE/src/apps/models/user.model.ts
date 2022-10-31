@@ -1,18 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 import config from 'config'
-
-export interface UserDocument extends mongoose.Document {
-    Id: string,
-    UserName: string,
-    Password: string,
-    Sex: string,
-    Dob: Date,
-    Email: string,
-    FullName: string,
-    Status: boolean
-}
-
+import UserModel from "../DTO/User.dto";
 
 const UserSchema = new mongoose.Schema({
     UserName: { type: String, require: true, unique: true },
@@ -24,5 +13,5 @@ const UserSchema = new mongoose.Schema({
     Status: { type: Boolean, require: true }
 }, { timestamps: true })
 
-const User = mongoose.model<UserDocument>("tbl_User", UserSchema);
+const User = mongoose.model<UserModel>("tbl_User", UserSchema);
 export default User;

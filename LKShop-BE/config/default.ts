@@ -9,6 +9,11 @@ export default {
             SERVER_TOKEN_EXPIRETIME: 3600,
             SERVER_TOKEN_ISSUER: "coolIssuer",
             SERVER_TOKEN_SECRET: "superencryptedsecret"
+        },
+        tokenClient:{
+            SERVER_TOKEN_EXPIRETIME: 36000,
+            SERVER_TOKEN_ISSUER: "coolIssuer",
+            SERVER_TOKEN_SECRET: "superencryptedsecret"
         }
     },
     mail: {

@@ -1,16 +1,10 @@
 import mongoose from "mongoose";
-
-export interface CategoryDocument extends mongoose.Document {
-    Id: string,
-    CategoryName: string,
-    IsOnMenu: Boolean
-}
-
+import CategoryModel from "../DTO/Category.dto";
 
 const CategorySchema = new mongoose.Schema({
     CategoryName: { type: String, require: true, unique: true },
     IsOnMenu: { type: Boolean, default: false }
 }, { timestamps: true })
 
-const Category = mongoose.model<CategoryDocument>("tbl_Category", CategorySchema);
+const Category = mongoose.model<CategoryModel>("tbl_Category", CategorySchema);
 export default Category;

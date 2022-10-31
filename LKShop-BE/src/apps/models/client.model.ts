@@ -1,16 +1,5 @@
 import mongoose from "mongoose";
-
-export interface ClientDocument extends mongoose.Document {
-    Id: string,
-    UserName: string,
-    Password: string,
-    Email: string,
-    IsPayment: Boolean,
-    Quality: string,
-    LastWatch: Array<String>,
-    MovieList: Array<String>,
-    Avatar: string
-}
+import ClientModel from "../DTO/Client.dto";
 
 const ClientSchema = new mongoose.Schema({
     UserName: { type: String, require: true },
@@ -29,5 +18,5 @@ const ClientSchema = new mongoose.Schema({
     }]
 }, { timestamps: true })
 
-const Client = mongoose.model<ClientDocument>("tbl_Client", ClientSchema);
+const Client = mongoose.model<ClientModel>("tbl_Client", ClientSchema);
 export default Client;

@@ -1,6 +1,8 @@
 import User from "../models/user.model";
+import Client from "../models/client.model";
 import bcrypt from 'bcrypt'
 import { UserLoginModel } from "../DTO/User.dto";
+import { ClientLoginModel } from "../DTO/Client.dto";
 
 const login = async (input: UserLoginModel) => {
     try {
@@ -32,6 +34,38 @@ const login = async (input: UserLoginModel) => {
 
 }
 
+
+const loginClient = async (input: ClientLoginModel) => {
+    try {
+        const { Email, Password } = input
+        let client: any = await Client.findOne({ Email })
+        if (!client) {
+            return {
+                isSuccess: false,
+                msgString: "Not exist Email"
+            }
+        }
+        const isPasswordValid: boolean = await bcrypt.compare(Password, client.Password);
+        if (!isPasswordValid) {
+            return {
+                isSuccess: false,
+                msgString: "Wrong password"
+            }
+        }
+        client = client.toObject()
+        delete client.Password
+        return {
+            msgString: "Login Success",
+            isSucces: true,
+            data: client
+        }
+    } catch (err) {
+        throw err;
+    }
+
+}
+
 export {
-    login
+    login,
+    loginClient
 }

@@ -1,7 +1,7 @@
 import { getListPerson, getPersonById, createPerson, updatePerson, deletePerson } from "../services/Person.service";
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../common/base.response'
-import { PersonDocument } from "../models/Person.model";
+import PersonModel from "../DTO/Person.dto";
 import Router from '../../decorators/routes.decorator';
 import extractJWT from "../middlewares/extractJWT";
 
@@ -15,7 +15,7 @@ export class PersonController {
     })
     private async getListPersonHandler(req: Request, res: Response, next: NextFunction) {
         const persons = await getListPerson(req.body);
-        return res.send(new BaseResponse<PersonDocument[]>(persons, "Get Success", true))
+        return res.status(200).send(new BaseResponse<PersonModel[]>(persons, "Get Success", true))
     }
 
     @Router({
@@ -26,7 +26,7 @@ export class PersonController {
     private async getPersonByIdHandler(req: Request, res: Response) {
         const { PersonId } = req.params;
         const person = await getPersonById(PersonId);
-        return res.send(new BaseResponse<PersonDocument>(person, "Get Success", true))
+        return res.status(200).send(new BaseResponse<PersonModel>(person, "Get Success", true))
     }
 
     @Router({
@@ -36,7 +36,7 @@ export class PersonController {
     })
     private async createPersonHandler(req: Request, res: Response) {
         const person = await createPerson(req.body);
-        return res.send(new BaseResponse<PersonDocument>(person, "Create Success", true))
+        return res.status(200).send(new BaseResponse<PersonModel>(person, "Create Success", true))
     }
 
     @Router({
@@ -46,7 +46,7 @@ export class PersonController {
     })
     private async updatePersonHandler(req: Request, res: Response) {
         const person = await updatePerson(req.body)
-        return res.send({
+        return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
         })
@@ -60,7 +60,7 @@ export class PersonController {
     private async deletePersonHandler(req: Request, res: Response) {
         const { PersonId } = req.params
         await deletePerson(PersonId)
-        return res.send({
+        return res.status(200).send({
             isSuccess: true,
             msgString: "Delete Success"
         })

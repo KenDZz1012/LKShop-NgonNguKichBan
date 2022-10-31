@@ -9,4 +9,10 @@ export default class ClientModel {
     public LastWatch: Array<string>
 }
 
+
 export class ClientFilterModel extends ClientModel { }
+
+export class ClientLoginModel {
+    public Email: string
+    public Password: string
+}
