@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Person from "../DTO/Person";
+import Celebrity from "../DTO/Celebrity";
 
-const PersonSchema = new mongoose.Schema({
+const CelebritySchema = new mongoose.Schema({
     FullName: { type: String, require: true },
     ShortName: { type: String, require: true },
     Birth: { type: Date, require: true },
@@ -9,5 +9,5 @@ const PersonSchema = new mongoose.Schema({
     Role: { type: String },
 }, { timestamps: true })
 
-const PersonModel = mongoose.model<Person>("tbl_Person", PersonSchema);
-export default PersonModel;
+const CelebrityModel = mongoose.model<Celebrity>("tbl_Celebrity", CelebritySchema);
+export default CelebrityModel;

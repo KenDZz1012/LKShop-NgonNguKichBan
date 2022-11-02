@@ -1,4 +1,4 @@
-export default class PersonFilter{
+export default class Celebrity{
     Id: string
     FullName: string
     ShortName: string
