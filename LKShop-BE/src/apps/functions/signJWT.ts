@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 import config from "config"
 import log from "../logger";
 import { DocumentDefinition } from "mongoose";
-import { UserLoginModel } from "../DTO/User.dto";
+import  UserLogin  from "../Services/Authentication/DTO/AdminLogin";
 
-const signJWT = (user: UserLoginModel, callback: (error: Error | null, token: string | null) => void): void => {
+const signJWT = (user: UserLogin, callback: (error: Error | null, token: string | null) => void): void => {
     var timeSinchEpoch = new Date().getTime();
     var expirationTime = timeSinchEpoch + Number(config.get("app.token.SERVER_TOKEN_EXPIRETIME")) * 100000;
     var expirationTimeInSeconds = Math.floor(expirationTime / 1000);

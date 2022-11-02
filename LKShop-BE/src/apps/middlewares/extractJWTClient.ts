@@ -3,7 +3,7 @@ import log from "../logger";
 import jwt from 'jsonwebtoken'
 import config from 'config'
 
-const extractJWT = (req: Request, res: Response, next: NextFunction) => {
+const extractJWTClient = (req: Request, res: Response, next: NextFunction) => {
     log.info("Validating Token Client");
 
     let token = req.headers.authorization?.split(' ')[1];
@@ -28,4 +28,4 @@ const extractJWT = (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export default extractJWT
+export default extractJWTClient

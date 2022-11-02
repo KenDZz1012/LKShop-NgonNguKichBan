@@ -1,0 +1,35 @@
+import UserModel from "../../User/Models/UserModel";
+import bcrypt from 'bcrypt'
+import UserLogin from "../DTO/AdminLogin";
+
+const UserLoginHandler = async (input: UserLogin) => {
+    try {
+        const { UserName, Password } = input
+        let user: any = await UserModel.findOne({ UserName })
+        if (!user) {
+            return {
+                isSuccess: false,
+                msgString: "Not exist UserName"
+            }
+        }
+        const isPasswordValid: boolean = await bcrypt.compare(Password, user.Password);
+        if (!isPasswordValid) {
+            return {
+                isSuccess: false,
+                msgString: "Wrong password"
+            }
+        }
+        user = user.toObject()
+        delete user.Password
+        return {
+            msgString: "Login Success",
+            isSucces: true,
+            data: user
+        }
+    } catch (err) {
+        throw err;
+    }
+}
+export {
+    UserLoginHandler,
+}

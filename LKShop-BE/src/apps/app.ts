@@ -3,7 +3,7 @@ import config from 'config'
 import cors from 'cors'
 import dotenv from 'dotenv';
 import { appRouter } from '../decorators/routes.decorator';
-import './controllers/index'
+import './appController'
 dotenv.config();
 
 const app = express();

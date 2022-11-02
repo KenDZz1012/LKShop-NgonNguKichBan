@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import config from "config"
 import log from "../logger";
-import { ClientLoginModel } from "../DTO/Client.dto";
+import  ClientLogin  from "../Services/Authentication/DTO/ClientLogin";
 
-const signJWT = (client: ClientLoginModel, callback: (error: Error | null, token: string | null) => void): void => {
+
+const signJWT = (client: ClientLogin, callback: (error: Error | null, token: string | null) => void): void => {
     var timeSinchEpoch = new Date().getTime();
     var expirationTime = timeSinchEpoch + Number(config.get("app.tokenClient.SERVER_TOKEN_EXPIRETIME")) * 100000;
     var expirationTimeInSeconds = Math.floor(expirationTime / 1000);
