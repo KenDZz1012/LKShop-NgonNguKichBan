@@ -1,32 +1,34 @@
 import Category from "../DTO/Category";
 import CategoryModel from "../models/CategoryModel";
 import CategoryFilter from "../DTO/CategoryFilter";
+import CategoryCreate from "../DTO/CategoryCreate";
+import CategoryUpdate from "../DTO/CategoryUpdate";
 
 
-const getListCategory = async (input: CategoryFilter) => {
+const getListCategoryHandler = async (input: CategoryFilter) => {
     return await CategoryModel.find(input)
 }
 
-const getCategoryById = async (input: string) => {
+const getCategoryByIdHandler = async (input: string) => {
     return await CategoryModel.findById(input)
 }
 
-const createCategory = async (input: Category) => {
+const createCategoryHandler = async (input: CategoryCreate) => {
     return await CategoryModel.create(input)
 }
 
-const updateCategory = async (input: Category) => {
+const updateCategoryHandler = async (input: CategoryUpdate) => {
     return await CategoryModel.updateOne({ _id: input.Id }, { $set: input })
 }
 
-const deleteCategory = async (input: string) => {
+const deleteCategoryHandler = async (input: string) => {
     return await CategoryModel.deleteOne({ _id: input })
 }
 
 export {
-    getListCategory,
-    getCategoryById,
-    createCategory,
-    updateCategory,
-    deleteCategory
+    getListCategoryHandler,
+    getCategoryByIdHandler,
+    createCategoryHandler,
+    updateCategoryHandler,
+    deleteCategoryHandler
 }

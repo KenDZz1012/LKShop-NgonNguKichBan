@@ -4,19 +4,28 @@ import Movie from "../DTO/Movie";
 import Router from '../../../../decorators/routes.decorator';
 import extractJWT from "../../../middlewares/extractJWT";
 import upload from "../../../middlewares/uploadImage";
-import { getAllMovie, getMovieById, createMovie, updateMovie, deleteMovie } from '../Repositories/MovieRepository'
-import extractJWTClient from "../../../middlewares/extractJWTClient";
+import { getAllMovieHandler, getMovieByIdHandler, createMovieHandler, updateMovieHandler, deleteMovieHandler } from '../Repositories/MovieRepository'
+import validationMiddleware from "../../../middlewares/validation";
+import MovieFilter from "../DTO/MovieFilter";
+import MovieCreate from "../DTO/MovieCreate";
+import MovieUpdate from "../DTO/MovieUpdate";
+
 const baseUrl = "api/v1/Movie"
 
 export class MovieController {
     @Router({
         path: `/${baseUrl}/GetAllMovie`,
         method: 'get',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT, validationMiddleware(MovieFilter)]
     })
-    private async GetAllMovieHandler(req: Request, res: Response, next: NextFunction) {
-        const movies = await getAllMovie(req.body);
-        return res.status(200).send(new BaseResponse<Movie[]>(movies, "Get Success", true))
+    private async GetAllMovie(req: Request, res: Response, next: NextFunction) {
+        try {
+            const movies = await getAllMovieHandler(req.body);
+            return res.status(200).send(new BaseResponse<Movie[]>(movies, "Get Success", true))
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 
     @Router({
@@ -24,32 +33,38 @@ export class MovieController {
         method: 'get',
         middlewares: [extractJWT]
     })
-    private async GetAllMovieByIdHandler(req: Request, res: Response, next: NextFunction) {
-        const { MovieId } = req.params;
-        const Movie = await getMovieById(MovieId);
-        return res.status(200).send(new BaseResponse<Movie>(Movie, "Get Success", true))
+    private async GetAllMovieById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { MovieId } = req.params;
+            const Movie = await getMovieByIdHandler(MovieId);
+            return res.status(200).send(new BaseResponse<Movie>(Movie, "Get Success", true))
+        }
+        catch (error) {
+            console.log(error)
+        }
+
     }
 
     @Router({
         path: `/${baseUrl}/CreateMovie`,
         method: 'post',
-        middlewares: [extractJWT || extractJWTClient, upload.fields([
+        middlewares: [extractJWT, validationMiddleware(MovieCreate), upload.fields([
             { name: 'MovieVideo' },
             { name: 'Poster' }
         ])]
     })
-    private async CreateMovieHandler(req: Request, res: Response, next: NextFunction) {
-        const Movie = await createMovie(req.body, req.files);
+    private async CreateMovie(req: Request, res: Response, next: NextFunction) {
+        const Movie = await createMovieHandler(req.body, req.files);
         return res.status(200).send(new BaseResponse<Movie>(Movie, "Create Success", true))
     }
 
     @Router({
         path: `/${baseUrl}/UpdateMovie`,
         method: 'put',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(MovieUpdate)]
     })
-    private async UpdateMovieHandler(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateMovie(req.body)
+    private async UpdateMovie(req: Request, res: Response, next: NextFunction) {
+        const Movie = await updateMovieHandler(req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -61,9 +76,9 @@ export class MovieController {
         method: 'put',
         middlewares: [extractJWT]
     })
-    private async DeleteMovieHandler(req: Request, res: Response, next: NextFunction) {
+    private async DeleteMovie(req: Request, res: Response, next: NextFunction) {
         const { MovieId } = req.params
-        await deleteMovie(MovieId)
+        await deleteMovieHandler(MovieId)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Delete Success"

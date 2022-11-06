@@ -1,22 +1,60 @@
+import { IsArray, IsBoolean, IsDate, IsOptional, IsString, IsNumber } from "class-validator"
+
 export default class MovieFilter {
-    public Id: string
+
+    @IsString()
+    @IsOptional()
     public MovieName: string
-    public Poster: string
+
+    @IsNumber()
+    @IsOptional()
     public Rating: Number
+
+    @IsNumber()
+    @IsOptional()
     public RateCount: Number
-    public Category: Array<String>
-    public Trailer: String
-    public Director: Array<String>
-    public Actor: Array<String>
-    public Information: String
+
+    @IsArray()
+    @IsOptional()
+    public Category: Array<string>
+
+    @IsArray()
+    @IsOptional()
+    public Director: Array<string>
+
+    @IsArray()
+    @IsOptional()
+    public Actor: Array<string>
+
+    @IsString()
+    @IsOptional()
+    public Information: string
+
+    @IsNumber()
+    @IsOptional()
     public ReleaseYear: Number
+
+    @IsDate()
+    @IsOptional()
     public InTime: Date
-    public Status: String
+
+    @IsString()
+    @IsOptional()
+    public status: string
+
+    @IsBoolean()
+    @IsOptional()
     public IsTrending: Boolean
-    public CreatedBy: String
-    public RunTime: String
-    public RelatedMovie: Array<String>
-    public Language: String
-    public Country: String
-    public Video: string
+
+    @IsString()
+    @IsOptional()
+    public RunTime: string
+
+    @IsArray()
+    @IsOptional()
+    public RelatedMovie: Array<string>
+
+    @IsString()
+    @IsOptional()
+    public Country: string
 }

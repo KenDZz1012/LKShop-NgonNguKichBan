@@ -5,7 +5,7 @@ const pathFile = "src/public"
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         switch(file.fieldname){
-            case "Avatar":
+            case "ClientAvatar":
                 cb(null, `${pathFile}/ClientAvatar`);
                 break;
             case "MovieTrailer":
@@ -22,6 +22,9 @@ const storage = multer.diskStorage({
                 break;
             case "TVSeriesVideo":
                 cb(null, `${pathFile}/TVSeriesVideo`);
+                break;
+            case "CelebrityAvatar":
+                cb(null, `${pathFile}/CelebrityAvatar`);
                 break;
         }
     },

@@ -1,10 +1,15 @@
-import { getListClient, createClient, updateClient, deleteClient, getClientById, changeAvatar, checkPasswordClient } from "../Repositories/ClientRepository";
+import { getListClientHandler, createClientHandler, updateClientHandler, deleteClientHandler, getClientByIdHandler, changeAvatarHandler, checkPasswordClientHandler } from "../Repositories/ClientRepository";
 import e, { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../../../common/base.response'
 import Router from '../../../../decorators/routes.decorator';
 import extractJWT from "../../../middlewares/extractJWT";
 import upload from "../../../middlewares/uploadImage";
 import Client from "../DTO/Client";
+import validationMiddleware from "../../../middlewares/validation";
+import ClientFilter from "../DTO/ClientFilter";
+import ClientCreate from "../DTO/ClientCreate";
+import ClientUpdate from "../DTO/ClientUpdate";
+
 const baseUrl = "api/v1/Client"
 
 export class ClientController {
@@ -13,10 +18,10 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/GetAllClient`,
         method: 'get',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(ClientFilter)]
     })
-    private async getListClientHandler(req: Request, res: Response, next: NextFunction) {
-        const clients = await getListClient(req.body);
+    private async getListClient(req: Request, res: Response, next: NextFunction) {
+        const clients = await getListClientHandler(req.body);
         return res.status(200).send(new BaseResponse<Client[]>(clients, "Get Success", true))
     }
 
@@ -27,9 +32,9 @@ export class ClientController {
         method: 'get',
         middlewares: [extractJWT]
     })
-    private async getClientByIdHandler(req: Request, res: Response) {
+    private async getClientById(req: Request, res: Response) {
         const { ClientId } = req.params;
-        const Client = await getClientById(ClientId);
+        const Client = await getClientByIdHandler(ClientId);
         return res.status(200).send(new BaseResponse<Client>(Client, "Get Success", true))
     }
 
@@ -38,10 +43,10 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/createClient`,
         method: 'post',
-        middlewares: [extractJWT, upload.single("Avatar")]
+        middlewares: [extractJWT,validationMiddleware(ClientCreate) ,upload.single("Avatar")]
     })
-    private async createClientHandler(req: Request, res: Response) {
-        const Client = await createClient(req.body, req.file);
+    private async createClient(req: Request, res: Response) {
+        const Client = await createClientHandler(req.body, req.file);
         return res.status(200).send({
             isSuccess: Client.isSuccess,
             msgString: Client.msgString
@@ -53,10 +58,10 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/updateClient`,
         method: 'put',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(ClientUpdate)]
     })
-    private async updateClientHandler(req: Request, res: Response) {
-        const Client = await updateClient(req.body)
+    private async updateClient(req: Request, res: Response) {
+        const Client = await updateClientHandler(req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -70,9 +75,9 @@ export class ClientController {
         method: 'delete',
         middlewares: [extractJWT]
     })
-    private async deleteClientHandler(req: Request, res: Response) {
+    private async deleteClient(req: Request, res: Response) {
         const { ClientId } = req.params
-        await deleteClient(ClientId)
+        await deleteClientHandler(ClientId)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Delete Success"
@@ -86,15 +91,14 @@ export class ClientController {
         method: 'put',
         middlewares: [extractJWT, upload.single("Avatar")]
     })
-    private async changeAvatarHandler(req: Request, res: Response) {
-        console.log(req.file)
+    private async changeAvatar(req: Request, res: Response) {
         if (!req.file) {
             return res.status(200).send({
                 isSuccess: false,
                 msgString: "Please upload your file"
             })
         }
-        await changeAvatar(req.body, req.file)
+        await changeAvatarHandler(req.body, req.file)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Change Avatar success"
@@ -106,16 +110,16 @@ export class ClientController {
         method: 'put',
         middlewares: [extractJWT]
     })
-    private async changePasswordClientHandler(req: Request, res: Response) {
+    private async changePasswordClient(req: Request, res: Response) {
         const { Id, Password, NewPassword } = req.body
-        const response = await checkPasswordClient(Id, Password)
+        const response = await checkPasswordClientHandler(Id, Password)
         const ClientUpdate = {
             ...req.body,
             Id: Id,
             Password: NewPassword,
         }
         if (response.isSucces == true) {
-            await updateClient(ClientUpdate)
+            await updateClientHandler(ClientUpdate)
             return res.status(200).send({
                 isSuccess: true,
                 msgString: "Change Password Success"

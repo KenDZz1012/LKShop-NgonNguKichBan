@@ -22,16 +22,12 @@ const MovieSchema = new mongoose.Schema({
     IsTrending: { type: Boolean, default: null },
     Director: [{
         type: mongoose.Types.ObjectId,
-        ref: "Person"
+        ref: "Celebrity"
     }],
     Actor: [{
         type: mongoose.Types.ObjectId,
-        ref: "Person"
+        ref: "Celebrity"
     }],
-    CreatedBy: {
-        type: mongoose.Types.ObjectId,
-        ref: "User"
-    },
     RunTime: {
         type: String,
         require: true
@@ -40,10 +36,6 @@ const MovieSchema = new mongoose.Schema({
         type: String,
         default: null
     }],
-    Language: {
-        type: String,
-        default: null
-    },
     Country: {
         type: String,
         default: null,
@@ -51,7 +43,16 @@ const MovieSchema = new mongoose.Schema({
     Video: {
         type: String,
         default: null,
+    },
+    CreatedBy: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    },
+    CreatedTime:{
+        type:Date,
+        default: new Date()
     }
+    
 })
 
 const MovieModel = mongoose.model<Movie>("tbl_Movie", MovieSchema);

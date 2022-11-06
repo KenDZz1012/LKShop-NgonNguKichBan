@@ -4,19 +4,19 @@ export default class Movie {
     public Poster: string
     public Rating: Number
     public RateCount: Number
-    public Category: Array<String>
-    public Trailer: String
-    public Director: Array<String>
-    public Actor: Array<String>
-    public Information: String
+    public Category: Array<string>
+    public Trailer: string
+    public Director: Array<string>
+    public Actor: Array<string>
+    public Information: string
     public ReleaseYear: Number
     public InTime: Date
-    public Status: String
+    public status: string
     public IsTrending: Boolean
-    public CreatedBy: String
-    public RunTime: String
-    public RelatedMovie: Array<String>
-    public Language: String
-    public Country: String
+    public RunTime: string
+    public RelatedMovie: Array<string>
+    public Country: string
     public Video: string
+    public CreatedBy: string
+    public CreatedTime: Date
 }

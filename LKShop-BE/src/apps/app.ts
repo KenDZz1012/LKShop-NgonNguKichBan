@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv';
 import { appRouter } from '../decorators/routes.decorator';
 import './appController'
+
 dotenv.config();
 
 const app = express();
@@ -16,7 +17,6 @@ app.use(cors({
     origin: "http://localhost:8000"
 }))
 
-// routesLogin(app)
 app.use(appRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

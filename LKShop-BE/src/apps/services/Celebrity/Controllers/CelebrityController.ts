@@ -1,9 +1,13 @@
-import { getListCelebrity, getCelebrityById, createCelebrity, updateCelebrity, deleteCelebrity } from "../Repositories/CelebrityRepository";
+import { getListCelebrityHandler, getCelebrityByIdHandler, createCelebrityHandler, updateCelebrityHandler, deleteCelebrityHandler } from "../Repositories/CelebrityRepository";
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../../../common/base.response'
 import Celebrity from "../DTO/Celebrity";
 import Router from '../../../../decorators/routes.decorator';
 import extractJWT from "../../../middlewares/extractJWT";
+import validationMiddleware from "../../../middlewares/validation";
+import CelebrityCreate from "../DTO/CelebrityCreate";
+import CelebrityUpdate from "../DTO/CelebrityUpdate";
+import CelebrityFilter from "../DTO/CelebrityFilter";
 
 const baseUrl = "api/v1/Celebrity"
 
@@ -11,10 +15,10 @@ export class CeleController {
     @Router({
         path: `/${baseUrl}/GetAllCelebrity`,
         method: 'get',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(CelebrityFilter)]
     })
-    private async getListCelebrityHandler(req: Request, res: Response, next: NextFunction) {
-        const Celebritys = await getListCelebrity(req.body);
+    private async getListCelebrity(req: Request, res: Response, next: NextFunction) {
+        const Celebritys = await getListCelebrityHandler(req.body);
         return res.status(200).send(new BaseResponse<Celebrity[]>(Celebritys, "Get Success", true))
     }
 
@@ -23,29 +27,29 @@ export class CeleController {
         method: 'get',
         middlewares: [extractJWT]
     })
-    private async getCelebrityByIdHandler(req: Request, res: Response) {
+    private async getCelebrityById(req: Request, res: Response) {
         const { CelebrityId } = req.params;
-        const Celebrity = await getCelebrityById(CelebrityId);
+        const Celebrity = await getCelebrityByIdHandler(CelebrityId);
         return res.status(200).send(new BaseResponse<Celebrity>(Celebrity, "Get Success", true))
     }
 
     @Router({
         path: `/${baseUrl}/createCelebrity`,
         method: 'post',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(CelebrityCreate)]
     })
-    private async createCelebrityHandler(req: Request, res: Response) {
-        const Celebrity = await createCelebrity(req.body);
+    private async createCelebrity(req: Request, res: Response) {
+        const Celebrity = await createCelebrityHandler(req.body);
         return res.status(200).send(new BaseResponse<Celebrity>(Celebrity, "Create Success", true))
     }
 
     @Router({
         path: `/${baseUrl}/updateCelebrity`,
         method: 'put',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(CelebrityUpdate)]
     })
-    private async updateCelebrityHandler(req: Request, res: Response) {
-        const Celebrity = await updateCelebrity(req.body)
+    private async updateCelebrity(req: Request, res: Response) {
+        const Celebrity = await updateCelebrityHandler(req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -57,9 +61,9 @@ export class CeleController {
         method: 'delete',
         middlewares: [extractJWT]
     })
-    private async deleteCelebrityHandler(req: Request, res: Response) {
+    private async deleteCelebrity(req: Request, res: Response) {
         const { CelebrityId } = req.params
-        await deleteCelebrity(CelebrityId)
+        await deleteCelebrityHandler(CelebrityId)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Delete Success"

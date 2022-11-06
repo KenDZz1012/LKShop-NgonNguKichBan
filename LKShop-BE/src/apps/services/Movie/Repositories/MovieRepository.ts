@@ -1,34 +1,36 @@
 import MovieModel from "../models/MovieModel";
 import Movie from "../DTO/Movie";
 import MovieFilter from "../DTO/MovieFilter";
+import MovieCreate from "../DTO/MovieCreate";
+import MovieUpdate from "../DTO/MovieUpdate";
 
-const getAllMovie = async (input: MovieFilter) => {
+const getAllMovieHandler = async (input: MovieFilter) => {
     return await MovieModel.find(input)
 }
 
-const getMovieById = async (input: String) => {
+const getMovieByIdHandler = async (input: String) => {
     return await MovieModel.findById(input)
 }
 
-const createMovie = async (input: Movie, files: any) => {
+const createMovieHandler = async (input: MovieCreate, files: any) => {
     input.Poster = files.Poster ? `src/public/MoviePoster/${files.Poster[0].filename}` : null
     input.Video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
     input.Trailer = files.MovieTrailer ? `src/public/MovieTrailer/${files.MovieTrailer[0].filename}` : null
     return await MovieModel.create(input) 
 }
 
-const updateMovie = async (input: Movie) => {
+const updateMovieHandler = async (input: MovieUpdate) => {
     return await MovieModel.updateOne({ _id: input.Id }, { $set: input })
 }
 
-const deleteMovie = async (input: string) => {
+const deleteMovieHandler = async (input: string) => {
     return await MovieModel.deleteOne({ _id: input })
 }
 
 export {
-    getAllMovie,
-    getMovieById,
-    createMovie,
-    updateMovie,
-    deleteMovie
+    getAllMovieHandler,
+    getMovieByIdHandler,
+    createMovieHandler,
+    updateMovieHandler,
+    deleteMovieHandler
 }

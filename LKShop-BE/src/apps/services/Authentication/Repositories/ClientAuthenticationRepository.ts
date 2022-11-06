@@ -1,7 +1,7 @@
 import ClientModel from "../../Client/Models/ClientModel";
 import bcrypt from 'bcrypt'
 import  ClientLogin  from "../DTO/ClientLogin";
-
+import { validate } from 'class-validator'
 const ClientLoginHandler = async (input: ClientLogin) => {
     try {
         const { Email, Password } = input
@@ -12,6 +12,7 @@ const ClientLoginHandler = async (input: ClientLogin) => {
                 msgString: "Not exist Email"
             }
         }
+        console.log(Password,client.Password)
         const isPasswordValid: boolean = await bcrypt.compare(Password, client.Password);
         if (!isPasswordValid) {
             return {

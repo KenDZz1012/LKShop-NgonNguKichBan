@@ -1,10 +1,14 @@
-import { checkPasswordUser, createUser, deleteUser, getAllUser, getUserById, updateUser } from "../Repositories/UserRepository";
+import { checkPasswordUserHandler, createUserHandler, deleteUserHandler, getAllUserHandler, getUserByIdHandler, updateUserHandler } from "../Repositories/UserRepository";
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, BaseResponse } from '../../../../common/Base.response'
 import User from "../DTO/User";
 import bcrypt from 'bcrypt'
 import Router from '../../../../decorators/routes.decorator';
 import extractJWT from "../../../middlewares/extractJWT";
+import validationMiddleware from "../../../middlewares/validation";
+import UserFilter from "../DTO/UserFilter";
+import UserCreate from "../DTO/UserCreate";
+import UserUpdate from "../DTO/UserUpdate";
 
 const baseUrl = "api/v1/User"
 
@@ -12,10 +16,10 @@ export class UserController {
     @Router({
         path: `/${baseUrl}/GetAllUser`,
         method: 'get',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(UserFilter)]
     })
-    private async getUserListHandler(req: Request, res: Response) {
-        const users = await getAllUser(req.body);
+    private async getUserList(req: Request, res: Response) {
+        const users = await getAllUserHandler(req.body);
         return res.status(200).send(new BaseResponse<User[]>(users, "Get Success", true))
     }
 
@@ -24,29 +28,29 @@ export class UserController {
         method: 'get',
         middlewares: [extractJWT]
     })
-    private async getUserByIdHandler(req: Request, res: Response) {
+    private async getUserById(req: Request, res: Response) {
         const { UserId } = req.params;
-        const user = await getUserById(UserId);
+        const user = await getUserByIdHandler(UserId);
         return res.status(200).send(new BaseResponse<User>(user, "Get Success", true))
     }
 
     @Router({
         path: `/${baseUrl}/createUser`,
         method: 'post',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(UserCreate)]
     })
-    private async createUserHandler(req: Request, res: Response) {
-        const user = await createUser(req.body);
+    private async createUser(req: Request, res: Response) {
+        const user = await createUserHandler(req.body);
         return res.status(200).send(new BaseResponse<User>(user, "Get Success", true))
     }
 
     @Router({
         path: `/${baseUrl}/updateUser`,
         method: 'put',
-        middlewares: [extractJWT]
+        middlewares: [extractJWT,validationMiddleware(UserUpdate)]
     })
-    private async updateUserHandler(req: Request, res: Response) {
-        const user = await updateUser(req.body)
+    private async updateUser(req: Request, res: Response) {
+        const user = await updateUserHandler(req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -58,9 +62,9 @@ export class UserController {
         method: 'delete',
         middlewares: [extractJWT]
     })
-    private async deleteUserHandler(req: Request, res: Response) {
+    private async deleteUser(req: Request, res: Response) {
         const { UserId } = req.params
-        await deleteUser(UserId)
+        await deleteUserHandler(UserId)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Delete Success"
@@ -72,16 +76,16 @@ export class UserController {
         method: 'put',
         middlewares: [extractJWT]
     })
-    private async changePasswordUserHandler(req: Request, res: Response) {
+    private async changePasswordUser(req: Request, res: Response) {
         const { Id, Password, NewPassword } = req.body
-        const response = await checkPasswordUser(Id, Password)
+        const response = await checkPasswordUserHandler(Id, Password)
         const UserUpdate = {
             ...req.body,
             Id: Id,
             Password: NewPassword,
         }
         if (response.isSucces == true) {
-            await updateUser(UserUpdate)
+            await updateUserHandler(UserUpdate)
             return res.status(200).send({
                 isSuccess: true,
                 msgString: "Update Success"

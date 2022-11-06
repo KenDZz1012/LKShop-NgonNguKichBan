@@ -1,7 +1,9 @@
 import UserModel from "../../User/Models/UserModel";
 import bcrypt from 'bcrypt'
 import UserLogin from "../DTO/AdminLogin";
-
+import {
+    validate,
+} from 'class-validator';
 const UserLoginHandler = async (input: UserLogin) => {
     try {
         const { UserName, Password } = input

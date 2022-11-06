@@ -14,7 +14,7 @@ const ClientSchema = new mongoose.Schema({
     MovieList: [{
         type: mongoose.Types.ObjectId,
         ref: "Movie"
-    }]
+    }],
 }, { timestamps: true })
 const myDB = mongoose.connection.useDb('KenStore');
 const ClientModel = myDB.model<Client>("tbl_Client", ClientSchema);

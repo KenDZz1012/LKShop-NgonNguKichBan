@@ -2,16 +2,18 @@ import ClientModel from "../models/ClientModel";
 import Client from "../DTO/Client";
 import ClientFilter from "../DTO/ClientFilter";
 import bcrypt from 'bcrypt'
+import ClientCreate from "../DTO/ClientCreate";
+import ClientUpdate from "../DTO/ClientUpdate";
 
-const getListClient = async (input: ClientFilter) => {
-    return await ClientModel.find(input)
+const getListClientHandler = async (input: ClientFilter) => {
+    return await ClientModel.find(input).select(['-Password'])
 }
 
-const getClientById = async (input: string) => {
-    return await ClientModel.findById(input)
+const getClientByIdHandler = async (input: string) => {
+    return await ClientModel.findById(input).select(['-Password'])
 }
 
-const createClient = async (input: Client, file: any) => {
+const createClientHandler = async (input: ClientCreate, file: any) => {
     const { Email, Password, UserName } = input
     let client: any = await ClientModel.findOne({ Email })
     if (client) {
@@ -19,9 +21,6 @@ const createClient = async (input: Client, file: any) => {
             isSuccess: false,
             msgString: "Email already exist"
         }
-    }
-    if (file) {
-        input.Avatar = `src/public/ClientAvatar/${file.filename}`
     }
     const hash: string = input.Password ? bcrypt.hashSync(input.Password, 10) : "";
     input.Password = hash
@@ -32,20 +31,20 @@ const createClient = async (input: Client, file: any) => {
     }
 }
 
-const updateClient = async (input: Client) => {
+const updateClientHandler = async (input: ClientUpdate) => {
     return await ClientModel.updateOne({ _id: input.Id }, { $set: input })
 }
 
-const deleteClient = async (input: string) => {
+const deleteClientHandler = async (input: string) => {
     return await ClientModel.deleteOne({ _id: input })
 }
 
-const changeAvatar = async (input: Client, file: any) => {
+const changeAvatarHandler = async (input: Client, file: any) => {
     input.Avatar = `src/public/ClientAvatar/${file.filename}`
     return await ClientModel.updateOne({ _id: input.Id }, { $set: input })
 }
 
-const checkPasswordClient = async (Id: string, Password: string) => {
+const checkPasswordClientHandler = async (Id: string, Password: string) => {
     let client = await ClientModel.findById(Id)
     if (!client) {
         return {
@@ -67,11 +66,11 @@ const checkPasswordClient = async (Id: string, Password: string) => {
     }
 }
 export {
-    getListClient,
-    getClientById,
-    createClient,
-    updateClient,
-    deleteClient,
-    changeAvatar,
-    checkPasswordClient
+    getListClientHandler,
+    getClientByIdHandler,
+    createClientHandler,
+    updateClientHandler,
+    deleteClientHandler,
+    changeAvatarHandler,
+    checkPasswordClientHandler
 }

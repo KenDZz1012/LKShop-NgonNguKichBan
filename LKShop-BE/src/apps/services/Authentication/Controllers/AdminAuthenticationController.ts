@@ -3,6 +3,8 @@ import signJWT from "../../../functions/signJWT";
 import log from "../../../logger";
 import { UserLoginHandler } from "../Repositories/AdminAuthenticationRepository";
 import Router from '../../../../decorators/routes.decorator';
+import validationMiddleware from "../../../middlewares/validation";
+import UserLogin from "../DTO/AdminLogin";
 
 const baseUrl = "api/v1/Authentication/admin"
 
@@ -10,6 +12,7 @@ export class UserAuthenticationController {
     @Router({
         path: `/${baseUrl}/Login`,
         method: 'post',
+        middlewares:[validationMiddleware(UserLogin)]
     })
     private async UserLogin(req: Request, res: Response, next: NextFunction) {
         const userLogin = await UserLoginHandler(req.body)

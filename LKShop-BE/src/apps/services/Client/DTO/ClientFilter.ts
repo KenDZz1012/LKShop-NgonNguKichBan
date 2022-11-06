@@ -1,10 +1,15 @@
+import { IsBoolean, IsEmail, IsOptional, IsString } from "class-validator"
+
 export default class ClientFilter {
-    public Id: string
+    @IsString()
+    @IsOptional()
     public UserName: string
-    public Password: string
+
+    @IsEmail()
+    @IsOptional()
     public Email: string
-    public Avatar: string
+
+    @IsBoolean()
+    @IsOptional()
     public IsPayment: Boolean
-    public Quality: string
-    public LastWatch: Array<string>
 }

@@ -1,8 +1,19 @@
+import { IsOptional, IsString } from "class-validator"
+
 export default class CelebrityFilter{
-    Id: string
+    @IsString()
+    @IsOptional()
     FullName: string
+
+    @IsString()
+    @IsOptional()
     ShortName: string
+
+    @IsString()
+    @IsOptional()
     Birth: Date
-    Avatar: String
-    Role: String
+
+    @IsString()
+    @IsOptional()
+    Role: string
 }

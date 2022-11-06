@@ -6,11 +6,11 @@ const myDB = mongoose.connection.useDb('KenStore');
 const UserSchema = new mongoose.Schema({
     UserName: { type: String, require: true, unique: true },
     Password: { type: String, require: true },
-    Sex: { type: String, require: true },
-    Dob: { type: Date, require: true },
-    Email: { type: String, require: true },
+    Sex: { type: String, default: null },
+    Dob: { type: Date, default: null },
+    Email: { type: String, require: true, unique: true },
     FullName: { type: String },
-    Status: { type: Boolean, require: true }
+    Status: { type: Boolean, default: true },
 }, { timestamps: true })
 
 

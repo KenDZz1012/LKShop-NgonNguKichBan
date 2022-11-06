@@ -1,5 +1,12 @@
+import { IsBoolean, IsOptional, IsString } from "class-validator"
+
 export default class CategoryFilter {
-    Id: string
+
+    @IsString()
+    @IsOptional()
     CategoryName: string
+
+    @IsBoolean()
+    @IsOptional()
     IsOnMenu: Boolean
 }

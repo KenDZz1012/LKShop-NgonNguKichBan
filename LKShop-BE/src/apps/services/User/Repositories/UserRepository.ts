@@ -2,22 +2,24 @@ import UserModel from "../models/UserModel"
 import bcrypt from 'bcrypt'
 import User from "../DTO/User";
 import UserFilter from "../DTO/UserFilter";
+import UserCreate from "../DTO/UserCreate";
+import UserUpdate from "../DTO/UserUpdate";
 
-const getAllUser = async (input: UserFilter) => {
-    return await UserModel.find(input)
+const getAllUserHandler = async (input: UserFilter) => {
+    return await UserModel.find(input).select(['-Password'])
 }
 
-const getUserById = async (input: string) => {
-    return await UserModel.findById(input)
+const getUserByIdHandler = async (input: string) => {
+    return await UserModel.findById(input).select(['-Password'])
 }
 
-const createUser = async (input: User) => {
+const createUserHandler = async (input: UserCreate) => {
     const hash: string = input.Password ? bcrypt.hashSync(input.Password, 10) : "";
     input.Password = hash
     return await UserModel.create(input)
 }
 
-const updateUser = async (input: User) => {
+const updateUserHandler = async (input: UserUpdate) => {
     const user = input
     if (user.Password) {
         const hash: string = bcrypt.hashSync(user.Password, 10);
@@ -26,11 +28,11 @@ const updateUser = async (input: User) => {
     return await UserModel.updateOne({ _id: user.Id }, { $set: user })
 }
 
-const deleteUser = async (input: string) => {
+const deleteUserHandler = async (input: string) => {
     return await UserModel.deleteOne({ _id: input })
 }
 
-const checkPasswordUser = async (Id: string, Password: string) => {
+const checkPasswordUserHandler = async (Id: string, Password: string) => {
     let user = await UserModel.findById(Id)
     if (!user) {
         return {
@@ -53,10 +55,10 @@ const checkPasswordUser = async (Id: string, Password: string) => {
 }
 
 export {
-    createUser,
-    getAllUser,
-    getUserById,
-    updateUser,
-    deleteUser,
-    checkPasswordUser
+    createUserHandler,
+    getAllUserHandler,
+    getUserByIdHandler,
+    updateUserHandler,
+    deleteUserHandler,
+    checkPasswordUserHandler
 }
