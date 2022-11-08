@@ -7,15 +7,6 @@ const TVSeriesSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Category"
     }],
-    Information: { type: String, defaut: null },
-    ReleaseYear: { type: Number, default: 0 },
-    InTime: { type: Date, default: new Date() },
-    Trailer: {
-        type: String,
-        default: null
-    },
-    Status: { type: String, default: null },
-    IsTrending: { type: Boolean, default: null },
     Director: [{
         type: mongoose.Types.ObjectId,
         ref: "Celebrity"
@@ -24,24 +15,13 @@ const TVSeriesSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Celebrity"
     }],
-    
-    RunTime: {
-        type: String,
-        require: true
-    },
-    RelatedMovie: [{
-        type: String,
-        default: null
+    StartYear: { type: Number, default: 0 },
+    EndYear: { type: Number, default: 0},
+    TVSeason:[{
+        type: mongoose.Types.ObjectId,
+        ref: "TVSeriesSeason"
     }],
-    Language: {
-        type: String,
-        default: null
-    },
     Country: {
-        type: String,
-        default: null,
-    },
-    Video: {
         type: String,
         default: null,
     },

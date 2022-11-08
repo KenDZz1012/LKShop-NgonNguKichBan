@@ -14,7 +14,19 @@ const getCategoryByIdHandler = async (input: string) => {
 }
 
 const createCategoryHandler = async (input: CategoryCreate) => {
-    return await CategoryModel.create(input)
+    const category = await CategoryModel.findOne({ CategoryName: input.CategoryName })
+    if(category){
+        return{
+            isSuccess:false,
+            msgString:`Category ${input.CategoryName} is exist`
+        }
+    }
+    const categoryCreate = await CategoryModel.create(input)
+    return {
+        isSuccess:true,
+        msgString:`Create Success`,
+        data:categoryCreate
+    }
 }
 
 const updateCategoryHandler = async (input: CategoryUpdate) => {

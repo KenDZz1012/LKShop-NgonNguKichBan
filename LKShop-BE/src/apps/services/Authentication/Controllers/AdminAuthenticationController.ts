@@ -5,7 +5,7 @@ import { UserLoginHandler } from "../Repositories/AdminAuthenticationRepository"
 import Router from '../../../../decorators/routes.decorator';
 import validationMiddleware from "../../../middlewares/validation";
 import UserLogin from "../DTO/AdminLogin";
-
+import HttpException from "../../../../Exceptions/HttpException";
 const baseUrl = "api/v1/Authentication/admin"
 
 export class UserAuthenticationController {
@@ -34,10 +34,7 @@ export class UserAuthenticationController {
             })
         }
         else {
-            return res.send({
-                message: userLogin.msgString,
-                isSucces: userLogin.isSucces,
-            })
+            next(new HttpException(400, userLogin.msgString))
         }
     }
 

@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv';
 import { appRouter } from '../decorators/routes.decorator';
 import './appController'
+import ErrorResponse from './ErrorResponse'
 
 dotenv.config();
 
@@ -19,12 +20,5 @@ app.use(cors({
 
 app.use(appRouter);
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    const status = err?.status || 500;
-    return res.status(status).json({
-        "isSuccess": false,
-        "message": err.message,
-        "stack": err.stack,
-    })
-})
+app.use(ErrorResponse)
 export default app;

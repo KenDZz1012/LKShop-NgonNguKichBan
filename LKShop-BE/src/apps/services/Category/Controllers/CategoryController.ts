@@ -16,7 +16,7 @@ export class CategoryController {
     @Router({
         path: `/${baseUrl}/GetAllCategory`,
         method: 'get',
-        middlewares: [extractJWT,validationMiddleware(CategoryFilter)]
+        middlewares: [extractJWT, validationMiddleware(CategoryFilter)]
     })
     private async getListCategory(req: Request, res: Response, next: NextFunction) {
         const categories = await getListCategoryHandler(req.body);
@@ -37,17 +37,21 @@ export class CategoryController {
     @Router({
         path: `/${baseUrl}/createCategory`,
         method: 'post',
-        middlewares: [extractJWT,validationMiddleware(CategoryCreate)]
+        middlewares: [extractJWT, validationMiddleware(CategoryCreate)]
     })
     private async createCategory(req: Request, res: Response) {
-        const category = await createCategoryHandler(req.body);
-        return res.status(200).send(new BaseResponse<Category>(category, "Create Success", true))
+        const response = await createCategoryHandler(req.body);
+        return res.send({
+            isSuccess: response.isSuccess,
+            message: response.msgString
+        })
     }
+    // return res.status(200).send(new BaseResponse<Category>(category, "Create Success", true))
 
     @Router({
         path: `/${baseUrl}/updateCategory`,
         method: 'put',
-        middlewares: [extractJWT,validationMiddleware(CategoryUpdate)]
+        middlewares: [extractJWT, validationMiddleware(CategoryUpdate)]
     })
     private async updateCategory(req: Request, res: Response) {
         const category = await updateCategoryHandler(req.body)

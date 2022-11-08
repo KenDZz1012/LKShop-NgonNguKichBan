@@ -14,9 +14,21 @@ const getUserByIdHandler = async (input: string) => {
 }
 
 const createUserHandler = async (input: UserCreate) => {
+    const user = await UserModel.findOne({ UserName: input.UserName })
+    if (user) {
+        return {
+            isSuccess: false,
+            msgString: `User ${input.UserName} is exist`
+        }
+    }
     const hash: string = input.Password ? bcrypt.hashSync(input.Password, 10) : "";
     input.Password = hash
-    return await UserModel.create(input)
+    const userCreate = await UserModel.create(input)
+    return {
+        isSuccess: true,
+        msgString: `Create Success`,
+        data: userCreate
+    }
 }
 
 const updateUserHandler = async (input: UserUpdate) => {

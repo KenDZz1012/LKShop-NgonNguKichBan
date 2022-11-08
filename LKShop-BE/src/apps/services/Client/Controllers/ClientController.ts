@@ -43,10 +43,10 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/createClient`,
         method: 'post',
-        middlewares: [extractJWT,validationMiddleware(ClientCreate) ,upload.single("Avatar")]
+        middlewares: [extractJWT,validationMiddleware(ClientCreate)]
     })
     private async createClient(req: Request, res: Response) {
-        const Client = await createClientHandler(req.body, req.file);
+        const Client = await createClientHandler(req.body);
         return res.status(200).send({
             isSuccess: Client.isSuccess,
             msgString: Client.msgString
@@ -89,15 +89,9 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/changeAvatar`,
         method: 'put',
-        middlewares: [extractJWT, upload.single("Avatar")]
+        middlewares: [extractJWT, upload.single("ClientAvatar")]
     })
     private async changeAvatar(req: Request, res: Response) {
-        if (!req.file) {
-            return res.status(200).send({
-                isSuccess: false,
-                msgString: "Please upload your file"
-            })
-        }
         await changeAvatarHandler(req.body, req.file)
         return res.status(200).send({
             isSuccess: true,

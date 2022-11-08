@@ -13,13 +13,16 @@ const getMovieByIdHandler = async (input: String) => {
 }
 
 const createMovieHandler = async (input: MovieCreate, files: any) => {
-    input.Poster = files.Poster ? `src/public/MoviePoster/${files.Poster[0].filename}` : null
+    input.Poster = files.MoviePoster ? `src/public/MoviePoster/${files.Poster[0].filename}` : null
     input.Video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
     input.Trailer = files.MovieTrailer ? `src/public/MovieTrailer/${files.MovieTrailer[0].filename}` : null
-    return await MovieModel.create(input) 
+    return await MovieModel.create(input)
 }
 
-const updateMovieHandler = async (input: MovieUpdate) => {
+const updateMovieHandler = async (input: MovieUpdate, files: any) => {
+    input.Poster = files.MoviePoster ? `src/public/MoviePoster/${files.Poster[0].filename}` : null
+    input.Video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
+    input.Trailer = files.MovieTrailer ? `src/public/MovieTrailer/${files.MovieTrailer[0].filename}` : null
     return await MovieModel.updateOne({ _id: input.Id }, { $set: input })
 }
 

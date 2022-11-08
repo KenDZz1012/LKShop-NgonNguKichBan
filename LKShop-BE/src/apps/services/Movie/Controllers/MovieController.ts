@@ -50,7 +50,8 @@ export class MovieController {
         method: 'post',
         middlewares: [extractJWT, validationMiddleware(MovieCreate), upload.fields([
             { name: 'MovieVideo' },
-            { name: 'Poster' }
+            { name: 'MovieTrailer' },
+            { name: 'MoviePoster' }
         ])]
     })
     private async CreateMovie(req: Request, res: Response, next: NextFunction) {
@@ -64,7 +65,7 @@ export class MovieController {
         middlewares: [extractJWT,validationMiddleware(MovieUpdate)]
     })
     private async UpdateMovie(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateMovieHandler(req.body)
+        const Movie = await updateMovieHandler(req.body,req.files)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"

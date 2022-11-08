@@ -40,8 +40,11 @@ export class UserController {
         middlewares: [extractJWT,validationMiddleware(UserCreate)]
     })
     private async createUser(req: Request, res: Response) {
-        const user = await createUserHandler(req.body);
-        return res.status(200).send(new BaseResponse<User>(user, "Get Success", true))
+        const response = await createUserHandler(req.body);
+        return res.status(200).send({
+            isSuccess: response.isSuccess,
+            msgString: response.msgString
+        })
     }
 
     @Router({

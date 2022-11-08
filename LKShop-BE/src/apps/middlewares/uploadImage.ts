@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
             case "TVSeriesTrailer":
                 cb(null,`${pathFile}/TVSeriesTrailer`)
                 break;
-            case "Poster":
+            case "MoviePoster":
                 cb(null, `${pathFile}/MoviePoster`);
                 break;
             case "MovieVideo":

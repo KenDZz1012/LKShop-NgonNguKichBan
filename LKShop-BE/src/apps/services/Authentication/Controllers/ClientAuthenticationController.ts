@@ -6,6 +6,7 @@ import Router from '../../../../decorators/routes.decorator';
 import { createClientHandler } from "../../Client/Repositories/ClientRepository";
 import validationMiddleware from "../../../middlewares/validation";
 import ClientLogin from "../DTO/ClientLogin";
+import HttpException from "../../../../Exceptions/HttpException";
 
 const baseUrl = "api/v1/Authentication/Client"
 
@@ -35,10 +36,7 @@ export class ClientAuthenticationController {
             })
         }
         else {
-            return res.send({
-                message: clientLogin.msgString,
-                isSucces: clientLogin.isSucces,
-            })
+            next(new HttpException(400, clientLogin.msgString))
         }
     }
 

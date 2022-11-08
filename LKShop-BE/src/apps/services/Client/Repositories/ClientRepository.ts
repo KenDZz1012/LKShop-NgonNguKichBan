@@ -13,7 +13,7 @@ const getClientByIdHandler = async (input: string) => {
     return await ClientModel.findById(input).select(['-Password'])
 }
 
-const createClientHandler = async (input: ClientCreate, file: any) => {
+const createClientHandler = async (input: ClientCreate) => {
     const { Email, Password, UserName } = input
     let client: any = await ClientModel.findOne({ Email })
     if (client) {
@@ -39,8 +39,8 @@ const deleteClientHandler = async (input: string) => {
     return await ClientModel.deleteOne({ _id: input })
 }
 
-const changeAvatarHandler = async (input: Client, file: any) => {
-    input.Avatar = `src/public/ClientAvatar/${file.filename}`
+const changeAvatarHandler = async (input: ClientUpdate, file: any) => {
+    input.Avatar = file ? `src/public/ClientAvatar/${file.filename}` : null
     return await ClientModel.updateOne({ _id: input.Id }, { $set: input })
 }
 
