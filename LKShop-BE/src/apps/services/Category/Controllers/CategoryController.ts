@@ -8,6 +8,7 @@ import validationMiddleware from "../../../middlewares/validation";
 import CategoryCreate from "../DTO/CategoryCreate";
 import CategoryUpdate from "../DTO/CategoryUpdate";
 import CategoryFilter from "../DTO/CategoryFilter";
+import HttpException from "../../../../Exceptions/HttpException";
 
 const baseUrl = "api/v1/Category"
 
@@ -39,12 +40,17 @@ export class CategoryController {
         method: 'post',
         middlewares: [extractJWT, validationMiddleware(CategoryCreate)]
     })
-    private async createCategory(req: Request, res: Response) {
+    private async createCategory(req: Request, res: Response, next: NextFunction) {
         const response = await createCategoryHandler(req.body);
-        return res.send({
-            isSuccess: response.isSuccess,
-            message: response.msgString
-        })
+        if (!response.isSuccess) {
+            next(new HttpException(400, response.msgString))
+        }
+        else {
+            return res.send({
+                isSuccess: response.isSuccess,
+                message: response.msgString
+            })
+        }
     }
     // return res.status(200).send(new BaseResponse<Category>(category, "Create Success", true))
 

@@ -9,6 +9,7 @@ import validationMiddleware from "../../../middlewares/validation";
 import ClientFilter from "../DTO/ClientFilter";
 import ClientCreate from "../DTO/ClientCreate";
 import ClientUpdate from "../DTO/ClientUpdate";
+import HttpException from "../../../../Exceptions/HttpException";
 
 const baseUrl = "api/v1/Client"
 
@@ -18,7 +19,7 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/GetAllClient`,
         method: 'get',
-        middlewares: [extractJWT,validationMiddleware(ClientFilter)]
+        middlewares: [extractJWT, validationMiddleware(ClientFilter)]
     })
     private async getListClient(req: Request, res: Response, next: NextFunction) {
         const clients = await getListClientHandler(req.body);
@@ -43,14 +44,20 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/createClient`,
         method: 'post',
-        middlewares: [extractJWT,validationMiddleware(ClientCreate)]
+        middlewares: [extractJWT, validationMiddleware(ClientCreate)]
     })
-    private async createClient(req: Request, res: Response) {
-        const Client = await createClientHandler(req.body);
-        return res.status(200).send({
-            isSuccess: Client.isSuccess,
-            msgString: Client.msgString
-        })
+    private async createClient(req: Request, res: Response, next: NextFunction) {
+        const Response = await createClientHandler(req.body);
+        if (!Response.isSuccess) {
+            next(new HttpException(400,Response.msgString))
+        }
+        else{
+            return res.status(201).send({
+                isSuccess: Response.isSuccess,
+                msgString: Response.msgString
+            })
+        }
+
     }
 
 
@@ -58,7 +65,7 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/updateClient`,
         method: 'put',
-        middlewares: [extractJWT,validationMiddleware(ClientUpdate)]
+        middlewares: [extractJWT, validationMiddleware(ClientUpdate)]
     })
     private async updateClient(req: Request, res: Response) {
         const Client = await updateClientHandler(req.body)

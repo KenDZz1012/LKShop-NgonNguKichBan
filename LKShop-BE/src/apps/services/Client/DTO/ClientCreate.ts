@@ -4,7 +4,7 @@ export default class ClientCreate {
     @IsString()
     public UserName: string
     
-    @IsEmail()
+    @IsString()
     public Password: string
 
     @IsEmail()
