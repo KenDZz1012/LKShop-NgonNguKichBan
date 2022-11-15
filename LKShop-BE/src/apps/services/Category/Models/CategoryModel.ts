@@ -6,7 +6,7 @@ const CategorySchema = new mongoose.Schema({
     IsOnMenu: { type: Boolean, default: false },
     CreatedBy: {
         type: mongoose.Types.ObjectId,
-        ref: "User"
+        ref: "tbl_User"
     },
     CreatedTime:{
         type:Date,

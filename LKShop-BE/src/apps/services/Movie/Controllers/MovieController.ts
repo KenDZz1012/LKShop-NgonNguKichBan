@@ -9,6 +9,7 @@ import validationMiddleware from "../../../middlewares/validation";
 import MovieFilter from "../DTO/MovieFilter";
 import MovieCreate from "../DTO/MovieCreate";
 import MovieUpdate from "../DTO/MovieUpdate";
+import HttpException from "../../../../Exceptions/HttpException";
 
 const baseUrl = "api/v1/Movie"
 
@@ -48,15 +49,19 @@ export class MovieController {
     @Router({
         path: `/${baseUrl}/CreateMovie`,
         method: 'post',
-        middlewares: [extractJWT, validationMiddleware(MovieCreate), upload.fields([
-            { name: 'MovieVideo' },
-            { name: 'MovieTrailer' },
-            { name: 'MoviePoster' }
-        ])]
+        middlewares: [extractJWT, validationMiddleware(MovieCreate)]
     })
     private async CreateMovie(req: Request, res: Response, next: NextFunction) {
-        const Movie = await createMovieHandler(req.body, req.files);
-        return res.status(200).send(new BaseResponse<Movie>(Movie, "Create Success", true))
+        const response = await createMovieHandler(req.body);
+        if(!response){
+            return next(new HttpException(400,response.msgString))
+        }
+        else{
+            return res.status(201).send({
+                isSuccess:response.isSuccess,
+                message:response.msgString
+            })
+        }
     }
 
     @Router({
@@ -65,7 +70,7 @@ export class MovieController {
         middlewares: [extractJWT,validationMiddleware(MovieUpdate)]
     })
     private async UpdateMovie(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateMovieHandler(req.body,req.files)
+        const Movie = await updateMovieHandler(req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"

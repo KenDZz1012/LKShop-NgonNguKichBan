@@ -6,7 +6,7 @@ import ClientCreate from "../DTO/ClientCreate";
 import ClientUpdate from "../DTO/ClientUpdate";
 
 const getListClientHandler = async (input: ClientFilter) => {
-    return await ClientModel.find(input).select(['-Password'])
+    return await ClientModel.find(input).select(['-Password']).populate('tbl_Movie')
 }
 
 const getClientByIdHandler = async (input: string) => {

@@ -5,24 +5,30 @@ import MovieCreate from "../DTO/MovieCreate";
 import MovieUpdate from "../DTO/MovieUpdate";
 
 const getAllMovieHandler = async (input: MovieFilter) => {
-    return await MovieModel.find(input)
+    let queryHandler = {
+        ...input,
+        Category: input.Category ? { $in: input.Category } : null,
+        Director: input.Director ? { $in: input.Director } : null,
+        Actor: input.Actor ? { $in: input.Actor } : null,
+    }
+    const query = Object.fromEntries(Object.entries(queryHandler).filter(([_, v]) => v != null));
+    return await MovieModel.find(query).populate('Category').populate('Actor').populate('Director')
 }
 
 const getMovieByIdHandler = async (input: String) => {
-    return await MovieModel.findById(input)
+    return await MovieModel.findById(input).populate('Category').populate('Actor').populate('Director')
 }
 
-const createMovieHandler = async (input: MovieCreate, files: any) => {
-    input.Poster = files.MoviePoster ? `src/public/MoviePoster/${files.Poster[0].filename}` : null
-    input.Video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
-    input.Trailer = files.MovieTrailer ? `src/public/MovieTrailer/${files.MovieTrailer[0].filename}` : null
-    return await MovieModel.create(input)
+const createMovieHandler = async (input: MovieCreate) => {
+    const movieCreate = await MovieModel.create(input)
+    return {
+        isSuccess: true,
+        msgString: "Create Success"
+    }
 }
 
-const updateMovieHandler = async (input: MovieUpdate, files: any) => {
-    input.Poster = files.MoviePoster ? `src/public/MoviePoster/${files.Poster[0].filename}` : null
-    input.Video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
-    input.Trailer = files.MovieTrailer ? `src/public/MovieTrailer/${files.MovieTrailer[0].filename}` : null
+const updateMovieHandler = async (input: MovieUpdate) => {
+
     return await MovieModel.updateOne({ _id: input.Id }, { $set: input })
 }
 

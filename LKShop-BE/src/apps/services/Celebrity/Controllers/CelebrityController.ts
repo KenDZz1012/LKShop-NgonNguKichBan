@@ -8,6 +8,7 @@ import validationMiddleware from "../../../middlewares/validation";
 import CelebrityCreate from "../DTO/CelebrityCreate";
 import CelebrityUpdate from "../DTO/CelebrityUpdate";
 import CelebrityFilter from "../DTO/CelebrityFilter";
+import HttpException from "../../../../Exceptions/HttpException";
 
 const baseUrl = "api/v1/Celebrity"
 
@@ -15,7 +16,7 @@ export class CeleController {
     @Router({
         path: `/${baseUrl}/GetAllCelebrity`,
         method: 'get',
-        middlewares: [extractJWT,validationMiddleware(CelebrityFilter)]
+        middlewares: [extractJWT, validationMiddleware(CelebrityFilter)]
     })
     private async getListCelebrity(req: Request, res: Response, next: NextFunction) {
         const Celebritys = await getListCelebrityHandler(req.body);
@@ -36,17 +37,25 @@ export class CeleController {
     @Router({
         path: `/${baseUrl}/createCelebrity`,
         method: 'post',
-        middlewares: [extractJWT,validationMiddleware(CelebrityCreate)]
+        middlewares: [extractJWT, validationMiddleware(CelebrityCreate)]
     })
-    private async createCelebrity(req: Request, res: Response) {
-        const Celebrity = await createCelebrityHandler(req.body);
-        return res.status(200).send(new BaseResponse<Celebrity>(Celebrity, "Create Success", true))
+    private async createCelebrity(req: Request, res: Response, next: NextFunction) {
+        const response = await createCelebrityHandler(req.body);
+        if (!response.isSuccess) {
+            next(new HttpException(400, response.msgString))
+        }
+        else {
+            return res.status(201).send({
+                isSuccess: response.isSuccess,
+                message: response.msgString
+            })
+        }
     }
 
     @Router({
         path: `/${baseUrl}/updateCelebrity`,
         method: 'put',
-        middlewares: [extractJWT,validationMiddleware(CelebrityUpdate)]
+        middlewares: [extractJWT, validationMiddleware(CelebrityUpdate)]
     })
     private async updateCelebrity(req: Request, res: Response) {
         const Celebrity = await updateCelebrityHandler(req.body)

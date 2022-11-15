@@ -11,8 +11,20 @@ const getCelebrityByIdHandler = async (input: string) => {
     return await CelebrityModel.findById(input)
 }
 
-const createCelebrityHandler = async (input: Celebrity) => {
-    return await CelebrityModel.create(input)
+const createCelebrityHandler = async (input: Celebrity) => {    
+    const celebrity = await CelebrityModel.findOne({ FullName: input.FullName,Role:input.Role })
+    if(celebrity){
+        return{
+            isSuccess:false,
+            msgString:`Celebrity ${input.FullName} is exist`
+        }
+    }
+    const celebrityCreate = await CelebrityModel.create(input)
+    return {
+        isSuccess:true,
+        msgString:`Create Success`,
+        data:celebrityCreate
+    } 
 }
 
 const updateCelebrityHandler = async (input: Celebrity) => {

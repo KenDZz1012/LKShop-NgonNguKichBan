@@ -5,3 +5,4 @@ export const catchAsync = (fn: Function) => (req: Request, res: Response, next: 
         next(err);
     })
 }
+

@@ -7,14 +7,22 @@ const ClientSchema = new mongoose.Schema({
     Avatar: { type: String, default: null },
     IsPayment: { type: Boolean, default: false },
     Quality: { type: String, default: null },
-    LastWatch: [{
+    LastWatchMovie: [{
         type: mongoose.Types.ObjectId,
-        ref: "Movie"
+        ref: "tbl_Movie"
+    }],
+    LastWatchTVSeries: [{
+        type: mongoose.Types.ObjectId,
+        ref: "tbl_TVSeriesSeason"
     }],
     MovieList: [{
         type: mongoose.Types.ObjectId,
-        ref: "Movie"
+        ref: "tbl_Movie"
     }],
+    TVSeriesList: [{
+        type: mongoose.Types.ObjectId,
+        refL: 'tbl_TVSeriesSeason'
+    }]
 }, { timestamps: true })
 const myDB = mongoose.connection.useDb('KenStore');
 const ClientModel = myDB.model<Client>("tbl_Client", ClientSchema);

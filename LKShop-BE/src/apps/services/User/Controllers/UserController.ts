@@ -9,6 +9,7 @@ import validationMiddleware from "../../../middlewares/validation";
 import UserFilter from "../DTO/UserFilter";
 import UserCreate from "../DTO/UserCreate";
 import UserUpdate from "../DTO/UserUpdate";
+import HttpException from "../../../../Exceptions/HttpException";
 
 const baseUrl = "api/v1/User"
 
@@ -39,12 +40,18 @@ export class UserController {
         method: 'post',
         middlewares: [extractJWT,validationMiddleware(UserCreate)]
     })
-    private async createUser(req: Request, res: Response) {
+    private async createUser(req: Request, res: Response,next:NextFunction) {
         const response = await createUserHandler(req.body);
-        return res.status(200).send({
-            isSuccess: response.isSuccess,
-            msgString: response.msgString
-        })
+        if(!response.isSuccess){
+            next(new HttpException(400,response.msgString))
+        }
+        else{
+            return res.status(201).send({
+                isSuccess: response.isSuccess,
+                msgString: response.msgString
+            })
+        }
+        
     }
 
     @Router({

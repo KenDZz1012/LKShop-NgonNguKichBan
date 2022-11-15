@@ -9,7 +9,7 @@ const CelebritySchema = new mongoose.Schema({
     Role: { type: String },
     CreatedBy: {
         type: mongoose.Types.ObjectId,
-        ref: "User"
+        ref: "tbl_User"
     },
     CreatedTime:{
         type:Date,
