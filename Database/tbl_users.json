@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "636271b632ecbd42332ee10e"
+  },
+  "UserName": "kien",
+  "Password": "$2b$10$G87pbHUlaz4nySHChSkO2.rzsgn6nvQ96PhsnlvLeVgnFU8pvdO6K",
+  "Email": "ki@gmail.com",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667396022945"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667396022945"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "636640737aa4dbf0aead02b9"
+  },
+  "UserName": "long",
+  "Password": "$2b$10$C8xhA7Qic3FHGWWa4hXV/eP6ZoMeIG89TMXmvlWAGtNny8xi.AT.m",
+  "Email": "a@gmail.com",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667645555507"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667645555507"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6366430048d69ab43cc589d6"
+  },
+  "UserName": "nam",
+  "Password": "$2b$10$fogdv.ckFlKBUsXRCLJv/OzmUjCFIGXjiX6pj166CON4kLYWZAkxO",
+  "Email": "b@gmail.com",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667646208242"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667646208242"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63667c5b741b8bea3717c68e"
+  },
+  "UserName": "Kien",
+  "Password": "$2b$10$f4t/yfVD/tOt6E8btE98nuC4MxOUKvx5/.duc2KVJHAWmRc0/ftiO",
+  "Email": "a@gmail.com",
+  "CreatedTime": {
+    "$date": {
+      "$numberLong": "1667660882674"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667660891019"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667660891019"
+    }
+  },
+  "__v": 0
+}]

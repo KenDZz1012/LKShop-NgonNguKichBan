@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { PopulatedDoc } from 'mongoose';
+import TVSeason from "../DTO/TVSeason";
 
 const TVSeasonSchema = new mongoose.Schema({
     Season: {
@@ -52,5 +53,5 @@ const TVSeasonSchema = new mongoose.Schema({
     }
 })
 
-const TVSeasonModel = mongoose.model("tbl_TVSeason", TVSeasonSchema);
+const TVSeasonModel = mongoose.model<TVSeason>("tbl_TVSeason", TVSeasonSchema);
 export default TVSeasonModel;

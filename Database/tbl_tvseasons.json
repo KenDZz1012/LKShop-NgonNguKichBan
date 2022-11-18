@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "6377c71c35a7bf5881fbd2b1"
+  },
+  "Season": 1,
+  "Poster": null,
+  "Description": null,
+  "Trailer": null,
+  "Rating": 0,
+  "RateCount": 0,
+  "ViewCount": 0,
+  "YearProduce": 0,
+  "Status": null,
+  "IsTrending": null,
+  "Movie": {
+    "$oid": "6377c6d235a7bf5881fbd2ad"
+  },
+  "CreatedTime": {
+    "$date": {
+      "$numberLong": "1668793990398"
+    }
+  },
+  "__v": 0
+}]

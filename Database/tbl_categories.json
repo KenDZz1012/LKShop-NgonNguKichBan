@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "636272e3927a71c0d3f112f2"
+  },
+  "CategoryName": "Action",
+  "IsOnMenu": true,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667396323979"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667396323979"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6367daef9b4d6554bf115b44"
+  },
+  "CategoryName": "Drama",
+  "IsOnMenu": false,
+  "CreatedTime": {
+    "$date": {
+      "$numberLong": "1667750614281"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667750639687"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667750639687"
+    }
+  },
+  "__v": 0
+}]

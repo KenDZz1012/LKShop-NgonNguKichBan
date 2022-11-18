@@ -4,7 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv';
 import { appRouter } from '../decorators/routes.decorator';
 import './appController'
-import ErrorResponse from './ErrorResponse'
+import ErrorResponse from '../common/ErrorResponse'
 
 dotenv.config();
 

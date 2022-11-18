@@ -1,0 +1,47 @@
+[{
+  "_id": {
+    "$oid": "6363315392a976b0a41ff17c"
+  },
+  "UserName": "ken",
+  "Password": "$2b$10$oMp7V3h.cSWqEUy9eFILxucbAaUcVaIiAVGSAtOo/Zdi9qZ4TEKuu",
+  "Email": "Ntk@gmail.com",
+  "Avatar": null,
+  "IsPayment": false,
+  "Quality": null,
+  "LastWatch": [],
+  "MovieList": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667445075902"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667445075902"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "636bd3f36fb68bc8fd37b57d"
+  },
+  "UserName": "Long",
+  "Password": "$2b$10$KRv0gVlkpP1eay6keRMvqeZVZUTV0M0c/zLnQSrkv7fWVKw0qW2Bm",
+  "Email": "Nlong@gmail.com",
+  "Avatar": null,
+  "IsPayment": false,
+  "Quality": null,
+  "LastWatch": [],
+  "MovieList": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1668010995373"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1668010995373"
+    }
+  },
+  "__v": 0
+}]

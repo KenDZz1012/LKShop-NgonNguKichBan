@@ -1,0 +1,38 @@
+[{
+  "_id": {
+    "$oid": "6371fc52d32305966965028f"
+  },
+  "MovieName": "Abc",
+  "Category": [
+    {
+      "$oid": "636272e3927a71c0d3f112f2"
+    },
+    {
+      "$oid": "6367daef9b4d6554bf115b44"
+    }
+  ],
+  "Director": [],
+  "Actor": [],
+  "Country": "VietNam",
+  "CreatedTime": {
+    "$date": {
+      "$numberLong": "1668414377247"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6377c6d235a7bf5881fbd2ad"
+  },
+  "MovieName": "bcd",
+  "Category": [],
+  "Director": [],
+  "Actor": [],
+  "Country": null,
+  "CreatedTime": {
+    "$date": {
+      "$numberLong": "1668793989581"
+    }
+  },
+  "__v": 0
+}]
