@@ -72,15 +72,6 @@ function MovieArea() {
               </div>
             </div>
           </div>
-       
-         
-         
-        
-        
-         
-      
-       
-           
           )
         })
 

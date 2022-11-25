@@ -16,7 +16,7 @@ export class UserAuthenticationController {
     })
     private async UserLogin(req: Request, res: Response, next: NextFunction) {
         const userLogin = await UserLoginHandler(req.body)
-        if (userLogin.isSucces) {
+        if (userLogin.isSuccess) {
             signJWT(userLogin.data, (_error, token) => {
                 if (_error) {
                     log.error("Unable to sign Token", _error)

@@ -15,7 +15,7 @@ app.use("/static", express.static(config.get("app.static_folder")));
 app.set('trust proxy', 1)
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:8000"
+    origin: "http://localhost:3000"
 }))
 
 app.use(appRouter);

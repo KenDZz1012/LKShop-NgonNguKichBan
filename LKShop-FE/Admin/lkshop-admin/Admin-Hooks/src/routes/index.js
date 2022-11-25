@@ -46,7 +46,7 @@ import InvoicesList from "../pages/Invoices/invoices-list";
 import InvoiceDetail from "../pages/Invoices/invoices-detail";
 
 // Authentication related pages
-import Login from "../pages/Authentication/Login";
+import Login from "../LKAdminPage/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
 import Register from "../pages/Authentication/Register";
 import ForgetPwd from "../pages/Authentication/ForgetPassword";
@@ -70,10 +70,8 @@ import TwostepVerification from "../pages/AuthenticationInner/auth-two-step-veri
 import TwostepVerification2 from "../pages/AuthenticationInner/auth-two-step-verification-2";
 
 // Dashboard
-import Dashboard from "../pages/Dashboard/index";
-import DashboardSaas from "../pages/Dashboard-saas/index";
-import DashboardCrypto from "../pages/Dashboard-crypto/index";
-import Blog from "../pages/Dashboard-Blog/index";
+import Dashboard from "../LKAdminPage/Dashboard/index";
+
 
 //Crypto
 import CryptoWallet from "../pages/Crypto/CryptoWallet/crypto-wallet";
@@ -172,9 +170,6 @@ import ContactsProfile from "../pages/Contacts/ContactsProfile/contacts-profile"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
-  { path: "/dashboard-saas", component: DashboardSaas },
-  { path: "/dashboard-crypto", component: DashboardCrypto },
-  { path: "/blog", component: Blog },
 
   //Crypto
   { path: "/crypto-wallet", component: CryptoWallet },

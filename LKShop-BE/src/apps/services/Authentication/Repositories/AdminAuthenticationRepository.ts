@@ -25,7 +25,7 @@ const UserLoginHandler = async (input: UserLogin) => {
         delete user.Password
         return {
             msgString: "Login Success",
-            isSucces: true,
+            isSuccess: true,
             data: user
         }
     } catch (err) {

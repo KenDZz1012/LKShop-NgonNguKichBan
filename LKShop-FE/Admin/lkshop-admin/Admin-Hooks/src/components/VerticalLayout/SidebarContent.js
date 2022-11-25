@@ -101,23 +101,16 @@ const SidebarContent = props => {
                 </span>
                 <span>{props.t("Dashboards")}</span>
               </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/dashboard">{props.t("Default")}</Link>
-                </li>
-                <li>
-                  <Link to="/dashboard-saas">{props.t("Saas")}</Link>
-                </li>
-                <li>
-                  <Link to="/dashboard-crypto">{props.t("Crypto")}</Link>
-                </li>
-                <li>
-                  <Link to="/blog">{props.t("Blog")}</Link>
-                </li>
-              </ul>
             </li>
 
             <li className="menu-title">{props.t("Apps")}</li>
+
+            <li>
+              <Link to="/projects-list" >
+                <i className="bx bx-user"></i>
+                <span>{props.t("User")}</span>
+              </Link>
+            </li>
 
             {/* <li>
               <Link to="/calendar" >
@@ -328,7 +321,7 @@ const SidebarContent = props => {
               </ul>
             </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" >
                 <span className="badge rounded-pill bg-success float-end">
                   {props.t("New")}
@@ -722,7 +715,7 @@ const SidebarContent = props => {
                   </ul>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </div>
       </SimpleBar>
