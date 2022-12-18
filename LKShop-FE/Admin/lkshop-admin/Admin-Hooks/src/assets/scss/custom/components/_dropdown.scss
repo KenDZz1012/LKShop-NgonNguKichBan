@@ -19,6 +19,7 @@
 .dropdown-menu-end[style] {
   left: auto !important;
   right: 0 !important;
+  position: relative !important;
 }
 
 .dropdown-menu[data-popper-placement^="right"],

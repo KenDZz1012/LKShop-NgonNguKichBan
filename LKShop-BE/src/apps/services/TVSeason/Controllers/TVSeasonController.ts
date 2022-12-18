@@ -45,12 +45,10 @@ export class TVSeasonController {
     @Router({
         path: `/${baseUrl}/CreateTVSeason`,
         method: 'post',
-        middlewares: [extractJWT, validationMiddleware(TVSeasonCreate), upload.fields([
-            { name: "TVPoster" },
-        ])]
+        middlewares: [extractJWT, validationMiddleware(TVSeasonCreate), upload.single("TVPoster")]
     })
     private async CreateTVSeason(req: Request, res: Response, next: NextFunction) {
-        const response = await createTVSeasonHandler(req.body, req.files);
+        const response = await createTVSeasonHandler(req.body, req.file);
         if (!response) {
             return next(new HttpException(400, response.msgString))
         }
@@ -63,14 +61,13 @@ export class TVSeasonController {
     }
 
     @Router({
-        path: `/${baseUrl}/UpdateTVSeason`,
+        path: `/${baseUrl}/UpdateTVSeason/:TVSeasonId`,
         method: 'put',
-        middlewares: [extractJWT, validationMiddleware(TVSeasonUpdate), upload.fields([
-            { name: "TVPoster" },
-        ])]
+        middlewares: [extractJWT, validationMiddleware(TVSeasonUpdate), upload.single("TVPoster")]
     })
     private async UpdateTVSeason(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateTVSeasonHandler(req.body, req.files)
+        const { TVSeasonId } = req.params
+        const Movie = await updateTVSeasonHandler(TVSeasonId, req.body, req.file)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -79,7 +76,7 @@ export class TVSeasonController {
 
     @Router({
         path: `/${baseUrl}/DeleteTVSeason/:TVSeasonId`,
-        method: 'put',
+        method: 'delete',
         middlewares: [extractJWT]
     })
     private async DeleteMovie(req: Request, res: Response, next: NextFunction) {

@@ -15,6 +15,10 @@ export default class TVEpisodeCreate {
 
     @IsString()
     @IsOptional()
+    public VideoUrl: string
+
+    @IsString()
+    @IsOptional()
     public RunTime: string
 
     @IsDate()

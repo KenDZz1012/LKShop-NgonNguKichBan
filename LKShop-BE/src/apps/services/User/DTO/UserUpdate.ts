@@ -1,8 +1,5 @@
-import { IsString,IsEmail, IsDate, IsBoolean, IsOptional } from "class-validator"
-export default class UserUpdate  {
-
-    @IsString()
-    public Id: string
+import { IsString, IsEmail, IsDate, IsBoolean, IsOptional,IsDateString, IsEmpty } from "class-validator"
+export default class UserUpdate {
 
     @IsOptional()
     @IsString()
@@ -17,7 +14,7 @@ export default class UserUpdate  {
     public Sex: string
 
     @IsOptional()
-    @IsDate()
+    @IsString()
     public Dob: Date
 
     @IsOptional()

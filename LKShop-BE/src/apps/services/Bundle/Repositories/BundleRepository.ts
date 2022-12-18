@@ -28,8 +28,8 @@ const createBundleHandler = async (input: BundleCreate) => {
     }
 }
 
-const updateBundleHandler = async (input: BundleUpdate) => {
-    return await BundleModel.updateOne({ _id: input.Id }, { $set: input })
+const updateBundleHandler = async (BundleId: String, input: BundleUpdate) => {
+    return await BundleModel.updateOne({ _id: BundleId }, { $set: input })
 }
 
 const deleteBundleHandler = async (input: String) => {

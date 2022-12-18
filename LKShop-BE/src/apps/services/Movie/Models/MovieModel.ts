@@ -20,11 +20,15 @@ const MovieSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
-    CreatedTime:{
-        type:Date,
+    Type: {
+        type: String,
+        default: null,
+    },
+    CreatedTime: {
+        type: Date,
         default: new Date()
     }
-    
+
 })
 
 const MovieModel = mongoose.model<Movie>("tbl_Movie", MovieSchema);

@@ -6,12 +6,11 @@ const BundleSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    Description: [
-        {
-            type: String,
-            default:null
-        }
-    ],
+    Description: {
+        type: String,
+        default: null
+    }
+    ,
     Price: {
         type: Number,
         require: true

@@ -6,9 +6,9 @@ export default class BundleFilter {
     @IsOptional()
     public BundleName: string
 
-    @IsArray()
+    @IsString()
     @IsOptional()
-    public Description: Array<string>
+    public Description: string
 
     @IsNumber()
     @IsOptional()

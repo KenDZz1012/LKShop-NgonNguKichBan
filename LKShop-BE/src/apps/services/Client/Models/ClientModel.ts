@@ -11,18 +11,16 @@ const ClientSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "tbl_Movie"
     }],
-    LastWatchTVSeries: [{
-        type: mongoose.Types.ObjectId,
-        ref: "tbl_TVSeriesSeason"
-    }],
     MovieList: [{
         type: mongoose.Types.ObjectId,
         ref: "tbl_Movie"
     }],
-    TVSeriesList: [{
+    Bundle: {
         type: mongoose.Types.ObjectId,
-        refL: 'tbl_TVSeriesSeason'
-    }]
+        ref: "tbl_Bundle"
+    }
+
+
 }, { timestamps: true })
 const myDB = mongoose.connection.useDb('KenStore');
 const ClientModel = myDB.model<Client>("tbl_Client", ClientSchema);

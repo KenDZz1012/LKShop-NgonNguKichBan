@@ -1,9 +1,6 @@
 import { IsBoolean, IsNumber, IsOptional, IsPositive, IsString } from "class-validator"
 
 export default class TVSeasonUpdate {
-    @IsString()
-    public Id: string
-
     @IsNumber()
     @IsOptional()
     public Season: number

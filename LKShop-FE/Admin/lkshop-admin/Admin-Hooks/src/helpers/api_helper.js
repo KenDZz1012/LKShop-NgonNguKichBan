@@ -39,3 +39,16 @@ export async function del(url, config = {}) {
     .delete(url, { ...config })
     .then(response => response.data);
 }
+
+export async function postWithFormData(url, data, config = {}) {
+  return axiosApi
+    .post(url, data, { ...config })
+    .then(response => response.data);
+}
+
+export async function putWithFormData(url, data, config = {}) {
+  return axiosApi
+    .put(url, data, { ...config })
+    .then(response => response.data);
+}
+

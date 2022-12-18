@@ -8,7 +8,8 @@ export default class SingleMovie {
     public ViewCount: number
     public YearProduce: number
     public Trailer: string
-    public video: string
+    public Video: string
+    public VideoUrl: string
     public Movie: string
     public IsTrending: boolean
     public Status: string

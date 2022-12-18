@@ -8,4 +8,5 @@ export default class Client {
     public Quality: string
     public LastWatch: Array<string>
     public MovieList: Array<string>
+    public Bundle: string
 }

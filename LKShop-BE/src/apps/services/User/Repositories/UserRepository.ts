@@ -31,13 +31,13 @@ const createUserHandler = async (input: UserCreate) => {
     }
 }
 
-const updateUserHandler = async (input: UserUpdate) => {
+const updateUserHandler = async (UserId: String, input: UserUpdate) => {
     const user = input
     if (user.Password) {
         const hash: string = bcrypt.hashSync(user.Password, 10);
         user.Password = hash;
     }
-    return await UserModel.updateOne({ _id: user.Id }, { $set: user })
+    return await UserModel.updateOne({ _id: UserId }, { $set: user })
 }
 
 const deleteUserHandler = async (input: string) => {

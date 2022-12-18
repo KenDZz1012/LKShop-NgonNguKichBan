@@ -9,7 +9,6 @@ export default class MovieCreate {
     @IsOptional()
     public Category: Array<string>
 
-
     @IsArray()
     @IsOptional()
     public Director: Array<string>
@@ -21,6 +20,10 @@ export default class MovieCreate {
     @IsString()
     @IsOptional()
     public Country: string
+
+    @IsString()
+    @IsOptional()
+    public Type: string
 
     @IsDate()
     @IsOptional()

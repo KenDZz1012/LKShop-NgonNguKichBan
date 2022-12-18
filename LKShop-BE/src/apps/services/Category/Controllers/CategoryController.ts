@@ -55,12 +55,13 @@ export class CategoryController {
     // return res.status(200).send(new BaseResponse<Category>(category, "Create Success", true))
 
     @Router({
-        path: `/${baseUrl}/updateCategory`,
+        path: `/${baseUrl}/updateCategory/:CategoryId`,
         method: 'put',
         middlewares: [extractJWT, validationMiddleware(CategoryUpdate)]
     })
     private async updateCategory(req: Request, res: Response) {
-        const category = await updateCategoryHandler(req.body)
+        const { CategoryId } = req.params
+        const category = await updateCategoryHandler(CategoryId, req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"

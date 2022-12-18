@@ -51,6 +51,7 @@ export class SingleMovieController {
         ])]
     })
     private async CreateSingleMovie(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body)
         const response = await createSingleMovieHandler(req.body, req.files);
         if (!response) {
             return next(new HttpException(400, response.msgString))
@@ -64,7 +65,7 @@ export class SingleMovieController {
     }
 
     @Router({
-        path: `/${baseUrl}/UpdateSingleMovie`,
+        path: `/${baseUrl}/UpdateSingleMovie/:SingleMovieId`,
         method: 'put',
         middlewares: [extractJWT, validationMiddleware(SingleMovieUpdate), upload.fields([
             { name: "MoviePoster" },
@@ -72,7 +73,8 @@ export class SingleMovieController {
         ])]
     })
     private async UpdateSingleMovie(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateSingleMovieHandler(req.body, req.files)
+        const { SingleMovieId } = req.params
+        const Movie = await updateSingleMovieHandler(SingleMovieId, req.body, req.files)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -81,7 +83,7 @@ export class SingleMovieController {
 
     @Router({
         path: `/${baseUrl}/DeleteSingleMovie/:SingleMovieId`,
-        method: 'put',
+        method: 'delete',
         middlewares: [extractJWT]
     })
     private async DeleteMovie(req: Request, res: Response, next: NextFunction) {

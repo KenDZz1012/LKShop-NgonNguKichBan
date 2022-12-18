@@ -1,6 +1,6 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from "class-validator"
 
-export default class SingleMovieCreate{
+export default class SingleMovieCreate {
     @IsString()
     @IsOptional()
     public Poster: string
@@ -35,7 +35,11 @@ export default class SingleMovieCreate{
 
     @IsString()
     @IsOptional()
-    public video: string
+    public Video: string
+
+    @IsString()
+    @IsOptional()
+    public VideoUrl: string
 
     @IsBoolean()
     @IsOptional()
@@ -46,5 +50,6 @@ export default class SingleMovieCreate{
     public Status: string
 
     @IsString()
+    @IsOptional()
     public Movie: string
 }

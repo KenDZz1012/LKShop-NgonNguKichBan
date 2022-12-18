@@ -167,9 +167,25 @@ import ContactsGrid from "../pages/Contacts/contacts-grid";
 import ContactsList from "../pages/Contacts/ContactList/contacts-list";
 import ContactsProfile from "../pages/Contacts/ContactsProfile/contacts-profile";
 
+import User from "LKAdminPage/User/index";
+import Client from "LKAdminPage/Client/index";
+import Category from "LKAdminPage/Category/index";
+import Celebrity from "LKAdminPage/Celebrity/index";
+import Bundle from "LKAdminPage/Bundle/index";
+import Movie from "LKAdminPage/Movie/index"
+import SingleMovie from "LKAdminPage/SingleMovie";
+import TVSeries from "LKAdminPage/TVSeries";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
+  { path: "/User", component: User },
+  { path: "/Client", component: Client },
+  { path: "/Category", component: Category },
+  { path: "/Celebrity", component: Celebrity },
+  { path: "/Bundle", component: Bundle },
+  { path: "/Movie", component: Movie },
+  { path: "/SingleMovie", component: SingleMovie },
+  { path: "/TVSeries", component: TVSeries },
 
   //Crypto
   { path: "/crypto-wallet", component: CryptoWallet },

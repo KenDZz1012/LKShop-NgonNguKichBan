@@ -7,6 +7,10 @@ const TVEpisodeSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    VideoUrl: {
+        type: String,
+        default: null
+    },
     Episode: {
         type: Number,
         default: null
@@ -19,7 +23,7 @@ const TVEpisodeSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    TVSeason:{
+    TVSeason: {
         type: mongoose.Types.ObjectId,
         ref: "tbl_TVSeason"
     },

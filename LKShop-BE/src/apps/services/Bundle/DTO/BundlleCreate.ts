@@ -5,9 +5,9 @@ export default class BundleCreate {
     @IsNotEmpty()
     public BundleName: string
 
-    @IsArray()
+    @IsString()
     @IsOptional()
-    public Description: Array<string>
+    public Description: string
 
     @IsNumber()
     @IsOptional()

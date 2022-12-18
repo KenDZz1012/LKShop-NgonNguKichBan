@@ -3,19 +3,24 @@ import TVEpisodeCreate from "../DTO/TVEpisodeCreate";
 import TVEpisodeFilter from "../DTO/TVEpisodeFilter";
 import TVEpisode from "../DTO/TVEpisode";
 import TVEpisodeUpdate from "../DTO/TVEpisodeUpdate";
-
-const getAllTVEpisodeHandler = async (input: TVEpisodeFilter) => {
-    return await TVEpisodeModel.find(input).populate('Movie')
+import { FileService } from "../../../middlewares/FileService";
+const _fileService = new FileService();
+const getAllTVEpisodeHandler = async (input: string) => {
+    console.log(input)
+    return await TVEpisodeModel.find({ 'TVSeason': input }).populate('TVSeason')
 }
 
 const getTVEpisodeByIdHandler = async (input: String) => {
-    return await TVEpisodeModel.findById(input).populate('Movie')
+    return await TVEpisodeModel.findById(input).populate('TVSeason')
 }
 
-const createTVEpisodeHandler = async (input: TVEpisodeCreate, files: any) => {
-    if (files) {
-        input.Video = files.TVSeriesVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
+const createTVEpisodeHandler = async (input: TVEpisodeCreate, file: any) => {
+    if (file) {
+        const filePathVideo = await _fileService.createLargeFile(file)
+        input.Video = filePathVideo[0]
+        input.VideoUrl = filePathVideo[1]
     }
+    console.log(input)
     const movieCreate = await TVEpisodeModel.create(input)
     return ({
         isSuccess: true,
@@ -23,11 +28,13 @@ const createTVEpisodeHandler = async (input: TVEpisodeCreate, files: any) => {
     })
 }
 
-const updateTVEpisodeHandler = async (input: TVEpisodeUpdate, files: any) => {
-    if (files) {
-        input.Video = files.TVSeriesVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
+const updateTVEpisodeHandler = async (TVEpisodeId: String, input: TVEpisodeUpdate, file: any) => {
+    if (file) {
+        const filePathVideo = await _fileService.createLargeFile(file)
+        input.Video = filePathVideo[0]
+        input.VideoUrl = filePathVideo[1]
     }
-    const movieUpdate = await TVEpisodeModel.updateOne({ _id: input.Id }, { $set: input })
+    const movieUpdate = await TVEpisodeModel.updateOne({ _id: TVEpisodeId }, { $set: input })
     return ({
         isSuccess: true,
         msgString: 'Create Success'

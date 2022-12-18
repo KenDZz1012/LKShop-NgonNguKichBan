@@ -1,8 +1,6 @@
-import { IsArray, IsBoolean, IsEmail, IsOptional, IsString } from "class-validator"
+import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator"
 
 export default class ClientUpdate {
-    @IsString()
-    public Id: string
 
     @IsString()
     @IsOptional()
@@ -35,4 +33,8 @@ export default class ClientUpdate {
     @IsArray()
     @IsOptional()
     public MovieList: Array<string>
+
+    @IsString()
+    @IsOptional()
+    public Bundle: string
 }

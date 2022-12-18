@@ -9,6 +9,7 @@ import CelebrityCreate from "../DTO/CelebrityCreate";
 import CelebrityUpdate from "../DTO/CelebrityUpdate";
 import CelebrityFilter from "../DTO/CelebrityFilter";
 import HttpException from "../../../../Exceptions/HttpException";
+import upload from "../../../middlewares/uploadImage";
 
 const baseUrl = "api/v1/Celebrity"
 
@@ -37,10 +38,11 @@ export class CeleController {
     @Router({
         path: `/${baseUrl}/createCelebrity`,
         method: 'post',
-        middlewares: [extractJWT, validationMiddleware(CelebrityCreate)]
+        middlewares: [extractJWT, upload.single("CelebrityAvatar"), validationMiddleware(CelebrityCreate)]
     })
     private async createCelebrity(req: Request, res: Response, next: NextFunction) {
-        const response = await createCelebrityHandler(req.body);
+        console.log(req.file)
+        const response = await createCelebrityHandler(req.body, req.file);
         if (!response.isSuccess) {
             next(new HttpException(400, response.msgString))
         }
@@ -53,12 +55,13 @@ export class CeleController {
     }
 
     @Router({
-        path: `/${baseUrl}/updateCelebrity`,
+        path: `/${baseUrl}/updateCelebrity/:CelebrityId`,
         method: 'put',
-        middlewares: [extractJWT, validationMiddleware(CelebrityUpdate)]
+        middlewares: [extractJWT, upload.single("CelebrityAvatar"), validationMiddleware(CelebrityUpdate)]
     })
     private async updateCelebrity(req: Request, res: Response) {
-        const Celebrity = await updateCelebrityHandler(req.body)
+        const { CelebrityId } = req.params
+        const Celebrity = await updateCelebrityHandler(CelebrityId, req.body, req.file)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"

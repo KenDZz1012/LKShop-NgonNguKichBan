@@ -53,24 +53,25 @@ export class MovieController {
     })
     private async CreateMovie(req: Request, res: Response, next: NextFunction) {
         const response = await createMovieHandler(req.body);
-        if(!response){
-            return next(new HttpException(400,response.msgString))
+        if (!response) {
+            return next(new HttpException(400, response.msgString))
         }
-        else{
+        else {
             return res.status(201).send({
-                isSuccess:response.isSuccess,
-                message:response.msgString
+                isSuccess: response.isSuccess,
+                message: response.msgString
             })
         }
     }
 
     @Router({
-        path: `/${baseUrl}/UpdateMovie`,
+        path: `/${baseUrl}/UpdateMovie/:MovieId`,
         method: 'put',
-        middlewares: [extractJWT,validationMiddleware(MovieUpdate)]
+        middlewares: [extractJWT, validationMiddleware(MovieUpdate)]
     })
     private async UpdateMovie(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateMovieHandler(req.body)
+        const { MovieId } = req.params
+        const Movie = await updateMovieHandler(MovieId, req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -79,7 +80,7 @@ export class MovieController {
 
     @Router({
         path: `/${baseUrl}/DeleteMovie/:MovieId`,
-        method: 'put',
+        method: 'delete',
         middlewares: [extractJWT]
     })
     private async DeleteMovie(req: Request, res: Response, next: NextFunction) {

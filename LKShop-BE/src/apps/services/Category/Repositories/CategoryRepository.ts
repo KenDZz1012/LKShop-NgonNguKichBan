@@ -15,7 +15,7 @@ const getCategoryByIdHandler = async (input: string) => {
 
 const createCategoryHandler = async (input: CategoryCreate) => {
     const category = await CategoryModel.findOne({ CategoryName: input.CategoryName })
-    if (category) {    
+    if (category) {
         return {
             isSuccess: false,
             msgString: `Category ${input.CategoryName} is exist`
@@ -29,8 +29,8 @@ const createCategoryHandler = async (input: CategoryCreate) => {
     }
 }
 
-const updateCategoryHandler = async (input: CategoryUpdate) => {
-    return await CategoryModel.updateOne({ _id: input.Id }, { $set: input })
+const updateCategoryHandler = async (CategoryId: String, input: CategoryUpdate) => {
+    return await CategoryModel.updateOne({ _id: CategoryId }, { $set: input })
 }
 
 const deleteCategoryHandler = async (input: string) => {

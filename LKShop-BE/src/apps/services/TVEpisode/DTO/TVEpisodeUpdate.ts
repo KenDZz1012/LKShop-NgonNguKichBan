@@ -3,10 +3,6 @@ import { IsDate, IsNumber, IsOptional, IsString } from "class-validator"
 export default class TVEpisodeUpdate {
     @IsString()
     @IsOptional()
-    public Id: string
-
-    @IsString()
-    @IsOptional()
     public EpisodeName: string
 
     @IsNumber()
@@ -17,6 +13,10 @@ export default class TVEpisodeUpdate {
     @IsOptional()
     public Video: string
 
+    @IsString()
+    @IsOptional()
+    public VideoUrl: string
+    
     @IsString()
     @IsOptional()
     public RunTime: string

@@ -7,6 +7,7 @@ import { createClientHandler } from "../../Client/Repositories/ClientRepository"
 import validationMiddleware from "../../../middlewares/validation";
 import ClientLogin from "../DTO/ClientLogin";
 import HttpException from "../../../../Exceptions/HttpException";
+import upload from "../../../middlewares/uploadImage";
 
 const baseUrl = "api/v1/Authentication/Client"
 
@@ -43,9 +44,10 @@ export class ClientAuthenticationController {
     @Router({
         path: `/${baseUrl}/Register`,
         method: 'post',
+        middlewares:[upload.single("ClientAvatar")]
     })
     private async UserRegister(req: Request, res: Response, next: NextFunction) {
-        const response = await createClientHandler(req.body)
+        const response = await createClientHandler(req.body, req.file)
         if (!response.isSuccess) {
             next(new HttpException(400, response.msgString))
         }

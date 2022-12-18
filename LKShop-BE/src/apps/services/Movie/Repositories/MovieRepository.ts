@@ -27,9 +27,9 @@ const createMovieHandler = async (input: MovieCreate) => {
     }
 }
 
-const updateMovieHandler = async (input: MovieUpdate) => {
+const updateMovieHandler = async (MovieId: String, input: MovieUpdate) => {
 
-    return await MovieModel.updateOne({ _id: input.Id }, { $set: input })
+    return await MovieModel.updateOne({ _id: MovieId }, { $set: input })
 }
 
 const deleteMovieHandler = async (input: string) => {

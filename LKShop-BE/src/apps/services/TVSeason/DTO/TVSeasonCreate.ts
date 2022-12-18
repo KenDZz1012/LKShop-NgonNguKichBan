@@ -41,10 +41,6 @@ export default class TVSeasonCreate {
     @IsOptional()
     public Trailer: string
 
-    @IsString()
-    @IsOptional()
-    public video: string
-
     
     @IsString()
     @IsOptional()

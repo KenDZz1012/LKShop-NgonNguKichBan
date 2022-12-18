@@ -5,8 +5,7 @@ import config from 'config'
 
 const extractJWT = (req: Request, res: Response, next: NextFunction) => {
     log.info("Validating Token");
-
-    let token = req.headers.authorization?.split(' ')[1];
+    let token = req.headers.authorization.split(' ')[1];
     if (token) {
         jwt.verify(token, config.get("app.token.SERVER_TOKEN_SECRET"), (error, decoded) => {
             if (error) {

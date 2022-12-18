@@ -49,9 +49,9 @@ export class BundleController {
     private async createBundle(req: Request, res: Response, next: NextFunction) {
         const Response = await createBundleHandler(req.body);
         if (!Response.isSuccess) {
-            next(new HttpException(400,Response.msgString))
+            next(new HttpException(400, Response.msgString))
         }
-        else{
+        else {
             return res.status(201).send({
                 isSuccess: Response.isSuccess,
                 msgString: Response.msgString
@@ -63,12 +63,13 @@ export class BundleController {
 
 
     @Router({
-        path: `/${baseUrl}/updateBundle`,
+        path: `/${baseUrl}/updateBundle/:BundleId`,
         method: 'put',
         middlewares: [extractJWT, validationMiddleware(BundleUpdate)]
     })
     private async updateBundle(req: Request, res: Response) {
-        const Bundle = await updateBundleHandler(req.body)
+        const { BundleId } = req.params
+        const Bundle = await updateBundleHandler(BundleId, req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -78,7 +79,7 @@ export class BundleController {
 
 
     @Router({
-        path: `/${baseUrl}/deleteBundle`,
+        path: `/${baseUrl}/deleteBundle/:BundleId`,
         method: 'delete',
         middlewares: [extractJWT]
     })

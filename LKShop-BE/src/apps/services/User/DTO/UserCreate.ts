@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsDate, IsBoolean, IsOptional } from "class-validator"
+import { IsString, IsEmail, IsDate, IsBoolean, IsOptional, IsDateString } from "class-validator"
 export default class UserCreate {
     @IsString()
     public UserName: string
@@ -10,7 +10,7 @@ export default class UserCreate {
     @IsOptional()
     public Sex: string
 
-    @IsDate()
+    @IsString()
     @IsOptional()
     public Dob: Date
 

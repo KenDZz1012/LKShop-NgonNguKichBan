@@ -39,6 +39,10 @@ const SingleMovieSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    VideoUrl: {
+        type: String,
+        default: null
+    },
     IsTrending: {
         type: Boolean,
         default: null,

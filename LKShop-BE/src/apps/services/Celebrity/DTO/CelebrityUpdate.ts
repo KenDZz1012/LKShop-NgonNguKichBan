@@ -2,9 +2,6 @@ import { IsDate, IsOptional, IsString } from "class-validator"
 
 export default class CelebrityUpdate{
     @IsString()
-    Id:string
-
-    @IsString()
     @IsOptional()
     FullName: string
  
@@ -12,7 +9,7 @@ export default class CelebrityUpdate{
     @IsOptional()
     ShortName: string
     
-    @IsDate()
+    @IsString()
     @IsOptional()
     Birth: Date
 

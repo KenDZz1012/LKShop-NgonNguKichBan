@@ -23,6 +23,10 @@ export default class MovieFilter {
     @IsOptional()
     public Country: string
 
+    @IsString()
+    @IsOptional()
+    public Type: string
+
     @IsDate()
     @IsOptional()
     public CreatedTime: Date

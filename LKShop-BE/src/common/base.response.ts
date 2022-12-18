@@ -1,9 +1,9 @@
 export class BaseResponse<T>{
     data: T | null;
     message: string;
-    iSuccess: boolean;
+    isSuccess: boolean;
     constructor(data: T | null = null, message = 'Success', isSuccess = true) {
-        this.iSuccess = true;
+        this.isSuccess = true;
         this.message = message;
         this.data = data;
     }

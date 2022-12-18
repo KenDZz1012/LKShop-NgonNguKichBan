@@ -44,14 +44,15 @@ export class ClientController {
     @Router({
         path: `/${baseUrl}/createClient`,
         method: 'post',
-        middlewares: [extractJWT, validationMiddleware(ClientCreate)]
+        middlewares: [extractJWT, upload.single("ClientAvatar"), validationMiddleware(ClientCreate)]
     })
     private async createClient(req: Request, res: Response, next: NextFunction) {
-        const Response = await createClientHandler(req.body);
+        console.log(req.body)
+        const Response = await createClientHandler(req.body, req.file);
         if (!Response.isSuccess) {
-            next(new HttpException(400,Response.msgString))
+            next(new HttpException(400, Response.msgString))
         }
-        else{
+        else {
             return res.status(201).send({
                 isSuccess: Response.isSuccess,
                 msgString: Response.msgString
@@ -63,12 +64,13 @@ export class ClientController {
 
 
     @Router({
-        path: `/${baseUrl}/updateClient`,
+        path: `/${baseUrl}/updateClient/:ClientId`,
         method: 'put',
-        middlewares: [extractJWT, validationMiddleware(ClientUpdate)]
+        middlewares: [extractJWT, upload.single("ClientAvatar"), validationMiddleware(ClientUpdate)]
     })
     private async updateClient(req: Request, res: Response) {
-        const Client = await updateClientHandler(req.body)
+        const { ClientId } = req.params
+        const Client = await updateClientHandler(ClientId, req.body, req.file)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -78,7 +80,7 @@ export class ClientController {
 
 
     @Router({
-        path: `/${baseUrl}/deleteClient`,
+        path: `/${baseUrl}/deleteClient/:ClientId`,
         method: 'delete',
         middlewares: [extractJWT]
     })
@@ -107,11 +109,12 @@ export class ClientController {
     }
 
     @Router({
-        path: `/${baseUrl}/ChangePassword`,
+        path: `/${baseUrl}/ChangePassword/:ClientId`,
         method: 'put',
         middlewares: [extractJWT]
     })
     private async changePasswordClient(req: Request, res: Response) {
+        const { ClientId } = req.params
         const { Id, Password, NewPassword } = req.body
         const response = await checkPasswordClientHandler(Id, Password)
         const ClientUpdate = {
@@ -120,7 +123,7 @@ export class ClientController {
             Password: NewPassword,
         }
         if (response.isSucces == true) {
-            await updateClientHandler(ClientUpdate)
+            await updateClientHandler(ClientId, ClientUpdate, req.file)
             return res.status(200).send({
                 isSuccess: true,
                 msgString: "Change Password Success"

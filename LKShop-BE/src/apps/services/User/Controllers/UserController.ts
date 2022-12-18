@@ -17,7 +17,7 @@ export class UserController {
     @Router({
         path: `/${baseUrl}/GetAllUser`,
         method: 'get',
-        middlewares: [extractJWT,validationMiddleware(UserFilter)]
+        middlewares: [extractJWT, validationMiddleware(UserFilter)]
     })
     private async getUserList(req: Request, res: Response) {
         const users = await getAllUserHandler(req.body);
@@ -38,29 +38,30 @@ export class UserController {
     @Router({
         path: `/${baseUrl}/createUser`,
         method: 'post',
-        middlewares: [extractJWT,validationMiddleware(UserCreate)]
+        middlewares: [extractJWT, validationMiddleware(UserCreate)]
     })
-    private async createUser(req: Request, res: Response,next:NextFunction) {
+    private async createUser(req: Request, res: Response, next: NextFunction) {
         const response = await createUserHandler(req.body);
-        if(!response.isSuccess){
-            next(new HttpException(400,response.msgString))
+        if (!response.isSuccess) {
+            next(new HttpException(400, response.msgString))
         }
-        else{
+        else {
             return res.status(201).send({
                 isSuccess: response.isSuccess,
                 msgString: response.msgString
             })
         }
-        
+
     }
 
     @Router({
-        path: `/${baseUrl}/updateUser`,
+        path: `/${baseUrl}/updateUser/:UserId`,
         method: 'put',
-        middlewares: [extractJWT,validationMiddleware(UserUpdate)]
+        middlewares: [extractJWT, validationMiddleware(UserUpdate)]
     })
     private async updateUser(req: Request, res: Response) {
-        const user = await updateUserHandler(req.body)
+        const { UserId } = req.params
+        const user = await updateUserHandler(UserId, req.body)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -82,20 +83,20 @@ export class UserController {
     }
 
     @Router({
-        path: `/${baseUrl}/ChangePassword`,
+        path: `/${baseUrl}/ChangePassword/:UserId`,
         method: 'put',
         middlewares: [extractJWT]
     })
     private async changePasswordUser(req: Request, res: Response) {
-        const { Id, Password, NewPassword } = req.body
-        const response = await checkPasswordUserHandler(Id, Password)
+        const { UserId } = req.params
+        const { Password, NewPassword } = req.body
+        const response = await checkPasswordUserHandler(UserId, Password)
         const UserUpdate = {
             ...req.body,
-            Id: Id,
             Password: NewPassword,
         }
         if (response.isSucces == true) {
-            await updateUserHandler(UserUpdate)
+            await updateUserHandler(UserId, UserUpdate)
             return res.status(200).send({
                 isSuccess: true,
                 msgString: "Update Success"

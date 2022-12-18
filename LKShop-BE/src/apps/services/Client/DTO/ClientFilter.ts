@@ -12,4 +12,9 @@ export default class ClientFilter {
     @IsBoolean()
     @IsOptional()
     public IsPayment: Boolean
+
+    @IsString()
+    @IsOptional()
+    public Bundle: string
+
 }

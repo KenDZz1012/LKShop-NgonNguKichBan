@@ -106,11 +106,65 @@ const SidebarContent = props => {
             <li className="menu-title">{props.t("Apps")}</li>
 
             <li>
-              <Link to="/projects-list" >
+              <Link to="/User" >
                 <i className="bx bx-user"></i>
                 <span>{props.t("User")}</span>
               </Link>
             </li>
+
+            <li>
+              <Link to="/Client" >
+                <i className="bx bx-user"></i>
+                <span>{props.t("Client")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/Category" >
+                <i className="bx bx-category"></i>
+                <span>{props.t("Category")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/Celebrity" >
+                <i className="bx bx-user"></i>
+                <span>{props.t("Celebrity")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/Bundle" >
+                <i className="bx bx-package"></i>
+                <span>{props.t("Bundle")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/Movie" >
+                <i className="bx bx-movie"></i>
+                <span>{props.t("Movie")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/SingleMovie" >
+                <i className="bx bx-movie"></i>
+                <span>{props.t("SingleMovie")}</span>
+              </Link>
+            </li>
+
+
+            <li>
+              <Link to="/TVSeries" >
+                <i className="bx bx-tv"></i>
+                <span>{props.t("TV Series")}</span>
+              </Link>
+            </li>
+
+            
+
+            
 
             {/* <li>
               <Link to="/calendar" >

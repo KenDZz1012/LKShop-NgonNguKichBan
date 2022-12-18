@@ -4,16 +4,23 @@ import ClientFilter from "../DTO/ClientFilter";
 import bcrypt from 'bcrypt'
 import ClientCreate from "../DTO/ClientCreate";
 import ClientUpdate from "../DTO/ClientUpdate";
+import { FileService } from "../../../middlewares/FileService";
 
 const getListClientHandler = async (input: ClientFilter) => {
-    return await ClientModel.find(input).select(['-Password']).populate('tbl_Movie')
+    return await ClientModel.find(input).select(['-Password']).populate('LastWatchMovie').populate('MovieList').populate('Bundle')
 }
 
 const getClientByIdHandler = async (input: string) => {
-    return await ClientModel.findById(input).select(['-Password'])
+    return await ClientModel.findById(input).select(['-Password']).populate('LastWatchMovie').populate('MovieList').populate('Bundle')
 }
 
-const createClientHandler = async (input: ClientCreate) => {
+const createClientHandler = async (input: ClientCreate, file: any) => {
+    if (file) {
+        const _fileService = new FileService();
+        const filePath = await _fileService.createFile(file)
+        input.Avatar = filePath
+    }
+
     const { Email, Password, UserName } = input
     let client: any = await ClientModel.findOne({ Email })
     if (client) {
@@ -31,8 +38,13 @@ const createClientHandler = async (input: ClientCreate) => {
     }
 }
 
-const updateClientHandler = async (input: ClientUpdate) => {
-    return await ClientModel.updateOne({ _id: input.Id }, { $set: input })
+const updateClientHandler = async (ClientId: String, input: ClientUpdate, file: any) => {
+    if (file) {
+        const _fileService = new FileService();
+        const filePath = await _fileService.createFile(file)
+        input.Avatar = filePath
+    }
+    return await ClientModel.updateOne({ _id: ClientId }, { $set: input })
 }
 
 const deleteClientHandler = async (input: string) => {
@@ -40,8 +52,8 @@ const deleteClientHandler = async (input: string) => {
 }
 
 const changeAvatarHandler = async (input: ClientUpdate, file: any) => {
-    input.Avatar = file ? `src/public/ClientAvatar/${file.filename}` : null
-    return await ClientModel.updateOne({ _id: input.Id }, { $set: input })
+    // input.Avatar = file ? `src/public/ClientAvatar/${file.filename}` : null
+    // return await ClientModel.updateOne({ _id: input.Id }, { $set: input })
 }
 
 const checkPasswordClientHandler = async (Id: string, Password: string) => {

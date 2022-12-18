@@ -3,9 +3,6 @@ import { IsArray, IsBoolean, IsDate, IsOptional, IsString, IsNumber } from "clas
 export default class MovieUpdate {
 
     @IsString()
-    public Id: string
-
-    @IsString()
     @IsOptional()
     public MovieName: string
 

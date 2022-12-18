@@ -16,12 +16,14 @@ const baseUrl = `api/v1/TVEpisode`
 export class TVEpisodeController {
 
     @Router({
-        path: `/${baseUrl}/getListTVEpisode`,
+        path: `/${baseUrl}/getListTVEpisode/:TVSeasonId`,
         method: 'get',
-        middlewares: [extractJWT, validationMiddleware(TVEpisodeFilter)]
+        middlewares: [extractJWT]
     })
-    public async GetListTVEpisode(req: Request, res: Response) {
-        const movies = await getAllTVEpisodeHandler(req.body);
+    public async GetListTVEpisodeByTVSeasonId(req: Request, res: Response) {
+        const { TVSeasonId } = req.params;
+        console.log(TVSeasonId)
+        const movies = await getAllTVEpisodeHandler(TVSeasonId);
         return res.status(200).send(new BaseResponse<TVEpisode[]>(movies, "Get Success", true))
     }
 
@@ -45,10 +47,10 @@ export class TVEpisodeController {
     @Router({
         path: `/${baseUrl}/CreateTVEpisode`,
         method: 'post',
-        middlewares: [extractJWT, validationMiddleware(TVEpisodeCreate), upload.single("TVSeriesVideo")]
+        middlewares: [extractJWT, validationMiddleware(TVEpisodeCreate), upload.single("TVVideo")]
     })
     private async CreateTVEpisode(req: Request, res: Response, next: NextFunction) {
-        const response = await createTVEpisodeHandler(req.body, req.files);
+        const response = await createTVEpisodeHandler(req.body, req.file);
         if (!response) {
             return next(new HttpException(400, response.msgString))
         }
@@ -61,12 +63,13 @@ export class TVEpisodeController {
     }
 
     @Router({
-        path: `/${baseUrl}/UpdateTVEpisode`,
+        path: `/${baseUrl}/UpdateTVEpisode/:TVEpisodeId`,
         method: 'put',
-        middlewares: [extractJWT, validationMiddleware(TVEpisodeUpdate), upload.single("TVSeriesVideo")]
+        middlewares: [extractJWT, validationMiddleware(TVEpisodeUpdate), upload.single("TVVideo")]
     })
     private async UpdateTVEpisode(req: Request, res: Response, next: NextFunction) {
-        const Movie = await updateTVEpisodeHandler(req.body, req.files)
+        const { TVEpisodeId } = req.params
+        const Movie = await updateTVEpisodeHandler(TVEpisodeId, req.body, req.file)
         return res.status(200).send({
             isSuccess: true,
             msgString: "Update Success"
@@ -75,7 +78,7 @@ export class TVEpisodeController {
 
     @Router({
         path: `/${baseUrl}/DeleteTVEpisode/:TVEpisodeId`,
-        method: 'put',
+        method: 'delete',
         middlewares: [extractJWT]
     })
     private async DeleteMovie(req: Request, res: Response, next: NextFunction) {

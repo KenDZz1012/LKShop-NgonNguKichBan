@@ -3,6 +3,9 @@ import SingleMovie from "../DTO/SingleMovie";
 import SingleMovieFilter from "../DTO/SingleMovieFilter";
 import SingleMovieCreate from "../DTO/SingleMovieCreate";
 import SingleMovieUpdate from "../DTO/SingleMovieUpdate";
+import { FileService } from "../../../middlewares/FileService";
+import DataFile from "../DTO/DataFile";
+const _fileService = new FileService();
 
 const getAllSingleMovieHandler = async (input: SingleMovieFilter) => {
     return await SingleMovieModel.find(input).populate('Movie')
@@ -13,10 +16,16 @@ const getSingleMovieByIdHandler = async (input: String) => {
 }
 
 const createSingleMovieHandler = async (input: SingleMovieCreate, files: any) => {
-    if (files) {
-        input.Poster = files.MoviePoster ? `src/public/MoviePoster/${files.MoviePoster[0].filename}` : null
-        input.video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
+    if (files.MoviePoster) {
+        const filePathPoster = await _fileService.createFile(files.MoviePoster[0])
+        input.Poster = filePathPoster
     }
+    if (files.MovieVideo) {
+        const filePathMovie = await _fileService.createLargeFile(files.MovieVideo[0])
+        input.Video = filePathMovie[0]
+        input.VideoUrl = filePathMovie[1]
+    }
+    console.log(input)
     const movieCreate = await SingleMovieModel.create(input)
     return ({
         isSuccess: true,
@@ -24,12 +33,17 @@ const createSingleMovieHandler = async (input: SingleMovieCreate, files: any) =>
     })
 }
 
-const updateSingleMovieHandler = async (input: SingleMovieUpdate, files: any) => {
-    if (files) {
-        input.Poster = files.MoviePoster ? `src/public/MoviePoster/${files.MoviePoster[0].filename}` : null
-        input.video = files.MovieVideo ? `src/public/MovieVideo/${files.MovieVideo[0].filename}` : null
+const updateSingleMovieHandler = async (SingleMovieId: String, input: SingleMovieUpdate, files: any) => {
+    if (files.MoviePoster) {
+        const filePathPoster = await _fileService.createFile(files.MoviePoster[0])
+        input.Poster = filePathPoster
     }
-    const movieUpdate = await SingleMovieModel.updateOne({ _id: input.Id }, { $set: input })
+    if (files.MovieVideo) {
+        const filePathMovie = await _fileService.createLargeFile(files.MovieVideo[0])
+        input.Video = filePathMovie[0]
+        input.VideoUrl = filePathMovie[1]
+    }
+    const movieUpdate = await SingleMovieModel.updateOne({ _id: SingleMovieId }, { $set: input })
     return ({
         isSuccess: true,
         msgString: 'Create Success'

@@ -2,13 +2,14 @@ import { IsDate, IsOptional, IsString } from "class-validator"
 
 export default class CelebrityCreate{
     @IsString()
+    @IsOptional()
     FullName: string
  
     @IsString()
     @IsOptional()
     ShortName: string
     
-    @IsDate()
+    @IsString()
     @IsOptional()
     Birth: Date
 
